@@ -132,6 +132,30 @@
       vertical-align: middle;
       font-size: 14px;
     }
+    td.long-text {
+      min-width: 300px;
+      max-width: 560px;
+      white-space: normal;
+      vertical-align: top;
+    }
+    .cell-clip {
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+    td.long-text:hover .cell-clip {
+      display: block;
+      overflow: visible;
+      -webkit-line-clamp: unset;
+    }
+    .merged-cell {
+      background: #f0f6f5;
+      color: var(--accent-ink);
+      font-weight: 700;
+      vertical-align: middle;
+      border-right: 1px solid var(--line);
+    }
     th {
       position: sticky;
       top: 0;

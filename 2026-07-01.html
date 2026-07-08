@@ -132,6 +132,30 @@
       vertical-align: middle;
       font-size: 14px;
     }
+    td.long-text {
+      min-width: 300px;
+      max-width: 560px;
+      white-space: normal;
+      vertical-align: top;
+    }
+    .cell-clip {
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+    td.long-text:hover .cell-clip {
+      display: block;
+      overflow: visible;
+      -webkit-line-clamp: unset;
+    }
+    .merged-cell {
+      background: #f0f6f5;
+      color: var(--accent-ink);
+      font-weight: 700;
+      vertical-align: middle;
+      border-right: 1px solid var(--line);
+    }
     th {
       position: sticky;
       top: 0;
@@ -204,7 +228,7 @@
 <ul><li>主买点：只在收盘突破计划价且量能确认后执行。</li>
 <li>次买点：突破后次日回踩平台上沿或突破 K 线半分位不破，才考虑半仓试单。</li>
 <li>仓位纪律：单股初始 12%-15%，确认后最高 20%-25%；单一板块总仓位不超过 35%。</li></ul>
-<div class="table-wrap"><table><thead><tr><th>板块</th><th>代码</th><th>名称</th><th>状态</th><th>形态</th><th>突破计划价</th><th>回踩观察价</th><th>结构止损</th><th>止盈1</th><th>止盈2</th><th>执行说明</th></tr></thead><tbody><tr><td>半导体材料</td><td>688432</td><td>有研硅</td><td>结构不完整</td><td>双低抬高型</td><td>41.83</td><td>42.16</td><td>22.92</td><td>50.38</td><td>54.96</td><td>暂不交易：首波、回调、缩量或低点抬高条件未同时满足。</td></tr><tr><td>半导体材料</td><td>603991</td><td>领先股份</td><td>突破确认</td><td>双低抬高型</td><td>142.56</td><td>146.79</td><td>117.10</td><td>170.80</td><td>186.32</td><td>主买点：已收盘突破，次日只做回踩不破或强承接确认，避免追一字板。</td></tr></tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th>板块</th><th>代码</th><th>名称</th><th>状态</th><th>形态</th><th>突破计划价</th><th>回踩观察价</th><th>结构止损</th><th>止盈1</th><th>止盈2</th><th>执行说明</th></tr></thead><tbody><tr><td>半导体材料</td><td>688432</td><td>有研硅</td><td>结构不完整</td><td>双低抬高型</td><td>41.83</td><td>42.16</td><td>22.92</td><td>50.38</td><td>54.96</td><td title="暂不交易：首波、回调、缩量或低点抬高条件未同时满足。" class="long-text"><span class="cell-clip">暂不交易：首波、回调、缩量或低点抬高条件未同时满足。</span></td></tr><tr><td>半导体材料</td><td>603991</td><td>领先股份</td><td>突破确认</td><td>双低抬高型</td><td>142.56</td><td>146.79</td><td>117.10</td><td>170.80</td><td>186.32</td><td title="主买点：已收盘突破，次日只做回踩不破或强承接确认，避免追一字板。" class="long-text"><span class="cell-clip">主买点：已收盘突破，次日只做回踩不破或强承接确认，避免追一字板。</span></td></tr></tbody></table></div>
     </article>
     <nav class="archive"><span>近期记录</span><a href="2026-07-08.html">2026-07-08 A股强势股筛选</a>
 <a href="2026-06-30.html">2026-06-30 A股强势股筛选</a>
