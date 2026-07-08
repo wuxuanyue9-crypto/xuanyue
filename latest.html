@@ -10,44 +10,145 @@
   <style>
     :root {
       color-scheme: light;
-      --bg: #f5f6f8;
+      --bg: #eef1f4;
+      --bg-grid: rgba(20, 23, 31, 0.04);
       --panel: #ffffff;
+      --panel-soft: #f8fafb;
       --text: #14171f;
-      --muted: #667085;
-      --line: #d9dee7;
-      --accent: #0f766e;
-      --accent-soft: #e3f5f2;
+      --muted: #647084;
+      --line: #d7dde6;
+      --line-strong: #aeb8c7;
+      --accent: #0b6f68;
+      --accent-ink: #084c48;
+      --accent-soft: #e2f4f1;
+      --gold: #9a6a16;
+      --gold-soft: #fff3d6;
+      --blue: #3451a3;
+      --shadow: 0 18px 50px rgba(18, 28, 45, 0.10);
     }
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      background: var(--bg);
+      background:
+        linear-gradient(90deg, transparent 31px, var(--bg-grid) 32px),
+        linear-gradient(180deg, transparent 31px, var(--bg-grid) 32px),
+        var(--bg);
+      background-size: 32px 32px;
       color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: "IBM Plex Sans", "Source Han Sans SC", "PingFang SC", -apple-system, BlinkMacSystemFont, sans-serif;
       line-height: 1.6;
     }
     main {
-      max-width: 1120px;
+      max-width: 1280px;
       margin: 0 auto;
-      padding: 28px 18px 48px;
+      padding: 28px 18px 56px;
     }
     article {
       background: var(--panel);
       border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 28px;
+      border-radius: 6px;
+      box-shadow: var(--shadow);
+      padding: 30px;
     }
-    h1, h2, h3, h4 { line-height: 1.25; margin: 28px 0 12px; }
-    h1 { margin-top: 0; font-size: 28px; }
-    h2 { font-size: 22px; border-top: 1px solid var(--line); padding-top: 22px; }
+    h1, h2, h3, h4 { line-height: 1.25; letter-spacing: 0; }
+    h1 {
+      margin: 0;
+      padding: 0 0 18px;
+      border-bottom: 2px solid var(--text);
+      font-size: 34px;
+      font-weight: 760;
+    }
+    h1 + p {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 18px 0 10px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--panel-soft);
+      color: var(--muted);
+      font-size: 14px;
+    }
+    h2 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 34px 0 14px;
+      padding: 14px 0 10px;
+      border-top: 1px solid var(--line-strong);
+      font-size: 22px;
+      font-weight: 720;
+    }
+    h2::before {
+      content: "";
+      width: 7px;
+      height: 22px;
+      border-radius: 2px;
+      background: var(--accent);
+      flex: none;
+    }
+    h3 {
+      margin: 24px 0 8px;
+      font-size: 18px;
+      color: var(--accent-ink);
+    }
+    h4 {
+      margin: 14px 0 8px;
+      font-size: 15px;
+      color: var(--blue);
+    }
     p, ul, blockquote { margin: 10px 0; }
     .lead { color: var(--muted); }
-    .table-wrap { overflow-x: auto; margin: 14px 0 22px; }
-    table { border-collapse: collapse; width: 100%; min-width: 760px; background: #fff; }
-    th, td { border: 1px solid var(--line); padding: 9px 10px; text-align: left; white-space: nowrap; }
-    th { background: #f0f4f8; font-weight: 650; }
-    tr:nth-child(even) td { background: #fafbfc; }
-    blockquote { border-left: 4px solid var(--accent); background: var(--accent-soft); padding: 10px 14px; color: #134e4a; }
+    ul {
+      padding: 12px 14px 12px 28px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--panel-soft);
+    }
+    li { margin: 5px 0; }
+    .table-wrap {
+      overflow-x: auto;
+      margin: 14px 0 24px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+    }
+    table {
+      border-collapse: separate;
+      border-spacing: 0;
+      width: 100%;
+      min-width: 860px;
+      background: #fff;
+      font-variant-numeric: tabular-nums;
+    }
+    th, td {
+      border: 0;
+      border-bottom: 1px solid var(--line);
+      padding: 10px 12px;
+      text-align: left;
+      white-space: nowrap;
+      vertical-align: middle;
+      font-size: 14px;
+    }
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: #eaf0f4;
+      color: #273143;
+      font-weight: 700;
+    }
+    tr:last-child td { border-bottom: 0; }
+    tr:nth-child(even) td { background: #fbfcfd; }
+    tr:hover td { background: var(--accent-soft); }
+    blockquote {
+      border-left: 4px solid var(--accent);
+      background: var(--accent-soft);
+      padding: 10px 14px;
+      color: var(--accent-ink);
+    }
     code { background: #eef2f6; padding: 1px 5px; border-radius: 4px; }
     .archive {
       display: flex;
@@ -59,16 +160,30 @@
       font-size: 14px;
     }
     .archive a, .archive-list a { color: var(--accent); text-decoration: none; }
-    .archive a { border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; background: #fff; }
+    .archive a {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 4px 10px;
+      background: #fff;
+      transition: border-color 140ms ease, color 140ms ease;
+    }
+    .archive a:hover { border-color: var(--accent); color: var(--accent-ink); }
     .archive-list { padding-left: 0; list-style: none; }
     .archive-list li { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); }
     .archive-list span { color: var(--muted); width: 42px; flex: none; }
+    a:focus-visible {
+      outline: 3px solid var(--gold-soft);
+      outline-offset: 2px;
+    }
     @media (max-width: 680px) {
-      main { padding: 12px; }
-      article { padding: 18px 14px; }
-      h1 { font-size: 22px; }
-      h2 { font-size: 18px; }
-      th, td { padding: 8px; font-size: 13px; }
+      main { padding: 10px; }
+      article { padding: 18px 12px; border-radius: 6px; }
+      h1 { font-size: 24px; }
+      h1 + p { font-size: 13px; }
+      h2 { font-size: 18px; margin-top: 28px; }
+      h3 { font-size: 16px; }
+      th, td { padding: 8px 9px; font-size: 13px; }
+      ul { padding: 10px 10px 10px 24px; }
     }
   </style>
 </head>
@@ -76,34 +191,29 @@
   <main>
     <article>
       <h1>2026-07-08 A股强势股筛选</h1>
-<p>数据日期：2026-07-08（最近一个有行情数据的交易日） 生成时间：2026-07-08 23:31</p>
+<p>数据日期：2026-07-08（最近一个有行情数据的交易日） 生成时间：2026-07-08 23:54</p>
 <h2>结论</h2>
 <ul><li>严格通过板块规则：0 个</li>
-<li>严格通过个股规则：0 只</li>
+<li>严格通过个股规则：2 只</li>
 <li>这里只是观察池，不是买入建议；买入还需要后续观察窗口内出现 15 分钟 H2 触发和风控确认。</li></ul>
 <h2>板块筛选</h2>
-<div class="table-wrap"><table><thead><tr><th>板块</th><th>严格通过</th><th>板块分</th><th>20日涨幅</th><th>量能比</th><th>20日振幅</th><th>成分数</th><th>广度</th></tr></thead><tbody><tr><td>电子</td><td>否</td><td>95.2</td><td>39.9%</td><td>1.67</td><td>10.2%</td><td>15.0</td><td>46.7%</td></tr><tr><td>国防军工</td><td>否</td><td>60.0</td><td>-4.3%</td><td>1.04</td><td>5.6%</td><td>136.0</td><td>5.1%</td></tr><tr><td>煤炭</td><td>否</td><td>58.3</td><td>-16.4%</td><td>0.81</td><td>4.9%</td><td>33.0</td><td>9.1%</td></tr><tr><td>非银金融</td><td>否</td><td>49.5</td><td>0.0%</td><td>0.00</td><td>0.0%</td><td>0.0</td><td>0.0%</td></tr><tr><td>钢铁</td><td>否</td><td>49.5</td><td>0.0%</td><td>0.00</td><td>0.0%</td><td>0.0</td><td>0.0%</td></tr><tr><td>有色金属</td><td>否</td><td>49.5</td><td>0.0%</td><td>0.00</td><td>0.0%</td><td>0.0</td><td>0.0%</td></tr></tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th>板块</th><th>严格通过</th><th>板块分</th><th>20日涨幅</th><th>量能比</th><th>20日振幅</th><th>成分数</th><th>广度</th></tr></thead><tbody><tr><td>电子</td><td>否</td><td>100.0</td><td>5.8%</td><td>1.14</td><td>8.0%</td><td>479.0</td><td>25.3%</td></tr><tr><td>国防军工</td><td>否</td><td>59.8</td><td>-4.3%</td><td>1.04</td><td>5.6%</td><td>136.0</td><td>5.1%</td></tr><tr><td>煤炭</td><td>否</td><td>58.2</td><td>-16.4%</td><td>0.81</td><td>4.9%</td><td>33.0</td><td>9.1%</td></tr><tr><td>非银金融</td><td>否</td><td>49.3</td><td>0.0%</td><td>0.00</td><td>0.0%</td><td>0.0</td><td>0.0%</td></tr><tr><td>钢铁</td><td>否</td><td>49.3</td><td>0.0%</td><td>0.00</td><td>0.0%</td><td>0.0</td><td>0.0%</td></tr><tr><td>有色金属</td><td>否</td><td>49.3</td><td>0.0%</td><td>0.00</td><td>0.0%</td><td>0.0</td><td>0.0%</td></tr></tbody></table></div>
 <h2>个股观察池</h2>
-<div class="table-wrap"><table><thead><tr><th>板块</th><th>代码</th><th>名称</th><th>严格通过</th><th>个股分</th><th>20日涨幅</th><th>量能比</th><th>20日振幅</th><th>新高比</th><th>20日成交额</th></tr></thead><tbody><tr><td>电子</td><td>688432</td><td>有研硅</td><td>否</td><td>98.7</td><td>97.4%</td><td>1.98</td><td>14.4%</td><td>0.89</td><td>0.0亿</td></tr><tr><td>电子</td><td>688652</td><td>京仪装备</td><td>否</td><td>95.6</td><td>70.8%</td><td>1.57</td><td>9.4%</td><td>0.93</td><td>0.0亿</td></tr><tr><td>电子</td><td>688728</td><td>格科微</td><td>否</td><td>94.4</td><td>66.0%</td><td>2.31</td><td>8.3%</td><td>0.87</td><td>0.0亿</td></tr><tr><td>国防军工</td><td>688629</td><td>华丰科技</td><td>否</td><td>90.9</td><td>59.7%</td><td>1.12</td><td>8.7%</td><td>0.95</td><td>0.0亿</td></tr><tr><td>国防军工</td><td>603261</td><td>立航科技</td><td>否</td><td>90.5</td><td>65.1%</td><td>2.79</td><td>10.7%</td><td>0.88</td><td>0.0亿</td></tr><tr><td>国防军工</td><td>001270</td><td>铖昌科技</td><td>否</td><td>88.1</td><td>10.7%</td><td>1.44</td><td>8.4%</td><td>0.84</td><td>0.0亿</td></tr><tr><td>煤炭</td><td>000571</td><td>新大洲A</td><td>否</td><td>81.3</td><td>15.9%</td><td>1.34</td><td>6.4%</td><td>0.84</td><td>0.0亿</td></tr><tr><td>煤炭</td><td>601918</td><td>新集能源</td><td>否</td><td>65.4</td><td>-2.7%</td><td>0.86</td><td>5.5%</td><td>0.81</td><td>0.0亿</td></tr><tr><td>煤炭</td><td>601101</td><td>昊华能源</td><td>否</td><td>59.7</td><td>-10.5%</td><td>0.78</td><td>7.6%</td><td>0.83</td><td>0.0亿</td></tr></tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th>板块</th><th>代码</th><th>名称</th><th>严格通过</th><th>个股分</th><th>20日涨幅</th><th>量能比</th><th>20日振幅</th><th>新高比</th><th>20日成交额</th></tr></thead><tbody><tr><td>电子</td><td>002141</td><td>贤丰控股</td><td>是</td><td>90.0</td><td>68.2%</td><td>2.85</td><td>10.3%</td><td>0.92</td><td>8.0亿</td></tr><tr><td>电子</td><td>002137</td><td>实益达</td><td>是</td><td>60.0</td><td>8.6%</td><td>1.94</td><td>8.9%</td><td>0.93</td><td>9.3亿</td></tr></tbody></table></div>
 <h2>主线板块分析</h2>
-<ul><li>当前没有足够的换手率数据，无法生成主线板块分析。</li></ul>
+<div class="table-wrap"><table><thead><tr><th>板块</th><th>前1%个股数</th><th>成交额×换手率</th><th>均20日成交额</th><th>均换手率</th></tr></thead><tbody><tr><td>电子</td><td>1</td><td>401010707.78</td><td>9.3亿</td><td>43.32%</td></tr></tbody></table></div>
 <h2>主线个股</h2>
-<ul><li>当前没有足够的换手率数据，无法展开主线个股。</li></ul>
+<h3>电子</h3>
+<h4>电子（1 只）</h4>
+<ul><li>002137 实益达 | 成交额×换手率：401010707.78 | 逻辑：未在 Obsidian 中找到直接逻辑片段。</li></ul>
 <h2>个股交易计划</h2>
 <ul><li>主买点：只在收盘突破计划价且量能确认后执行。</li>
 <li>次买点：突破后次日回踩平台上沿或突破 K 线半分位不破，才考虑半仓试单。</li>
 <li>仓位纪律：单股初始 12%-15%，确认后最高 20%-25%；单一板块总仓位不超过 35%。</li></ul>
-<div class="table-wrap"><table><thead><tr><th>板块</th><th>代码</th><th>名称</th><th>状态</th><th>形态</th><th>突破计划价</th><th>回踩观察价</th><th>结构止损</th><th>止盈1</th><th>止盈2</th><th>执行说明</th></tr></thead><tbody><tr><td>电子</td><td>688432</td><td>有研硅</td><td>观察等待</td><td>平台突破型</td><td>49.52</td><td>48.79</td><td>36.94</td><td>49.29</td><td>53.77</td><td>观察：等待收盘突破计划价且成交量达到近5日均量1.6倍以上。</td></tr><tr><td>电子</td><td>688652</td><td>京仪装备</td><td>观察等待</td><td>平台突破型</td><td>243.80</td><td>240.20</td><td>180.26</td><td>245.86</td><td>268.21</td><td>观察：等待收盘突破计划价且成交量达到近5日均量1.6倍以上。</td></tr><tr><td>电子</td><td>688728</td><td>格科微</td><td>观察等待</td><td>平台突破型</td><td>26.28</td><td>25.89</td><td>20.03</td><td>24.79</td><td>27.05</td><td>观察：等待收盘突破计划价且成交量达到近5日均量1.6倍以上。</td></tr><tr><td>国防军工</td><td>688629</td><td>华丰科技</td><td>观察等待</td><td>双低抬高型</td><td>215.77</td><td>212.58</td><td>175.46</td><td>226.58</td><td>247.18</td><td>观察：等待收盘突破计划价且成交量达到近5日均量1.6倍以上。</td></tr><tr><td>国防军工</td><td>603261</td><td>立航科技</td><td>观察等待</td><td>双低抬高型</td><td>62.85</td><td>62.23</td><td>41.89</td><td>59.95</td><td>65.40</td><td>观察：等待收盘突破计划价且成交量达到近5日均量1.6倍以上。</td></tr><tr><td>国防军工</td><td>001270</td><td>铖昌科技</td><td>观察等待</td><td>双低抬高型</td><td>181.45</td><td>179.65</td><td>145.81</td><td>166.46</td><td>181.60</td><td>观察：等待收盘突破计划价且成交量达到近5日均量1.6倍以上。</td></tr><tr><td>煤炭</td><td>000571</td><td>新大洲A</td><td>观察等待</td><td>双低抬高型</td><td>7.30</td><td>7.23</td><td>6.15</td><td>7.30</td><td>7.97</td><td>观察：等待收盘突破计划价且成交量达到近5日均量1.6倍以上。</td></tr><tr><td>煤炭</td><td>601918</td><td>新集能源</td><td>观察等待</td><td>双低抬高型</td><td>10.18</td><td>10.08</td><td>8.45</td><td>10.80</td><td>11.78</td><td>观察：等待收盘突破计划价且成交量达到近5日均量1.6倍以上。</td></tr><tr><td>煤炭</td><td>601101</td><td>昊华能源</td><td>结构不完整</td><td>双低抬高型</td><td>13.28</td><td>13.15</td><td>10.21</td><td>13.45</td><td>14.68</td><td>暂不交易：首波、回调、缩量或低点抬高条件未同时满足。</td></tr></tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th>板块</th><th>代码</th><th>名称</th><th>状态</th><th>形态</th><th>突破计划价</th><th>回踩观察价</th><th>结构止损</th><th>止盈1</th><th>止盈2</th><th>执行说明</th></tr></thead><tbody><tr><td>电子</td><td>002141</td><td>贤丰控股</td><td>结构不完整</td><td>双低抬高型</td><td>6.15</td><td>6.09</td><td>4.45</td><td>6.16</td><td>6.72</td><td>暂不交易：首波、回调、缩量或低点抬高条件未同时满足。</td></tr><tr><td>电子</td><td>002137</td><td>实益达</td><td>观察等待</td><td>平台突破型</td><td>11.91</td><td>11.79</td><td>9.55</td><td>12.89</td><td>14.06</td><td>观察：等待收盘突破计划价且成交量达到近5日均量1.6倍以上。</td></tr></tbody></table></div>
 <h2>第二天交易建议</h2>
-<ul><li>688432 有研硅：第二天继续观察强弱和量能，若开盘转弱则放弃追价。</li>
-<li>688652 京仪装备：第二天继续观察强弱和量能，若开盘转弱则放弃追价。</li>
-<li>688728 格科微：第二天继续观察强弱和量能，若开盘转弱则放弃追价。</li>
-<li>688629 华丰科技：第二天继续观察强弱和量能，若开盘转弱则放弃追价。</li>
-<li>603261 立航科技：第二天继续观察强弱和量能，若开盘转弱则放弃追价。</li>
-<li>001270 铖昌科技：第二天继续观察强弱和量能，若开盘转弱则放弃追价。</li>
-<li>000571 新大洲A：第二天继续观察强弱和量能，若开盘转弱则放弃追价。</li>
-<li>601918 新集能源：第二天继续观察强弱和量能，若开盘转弱则放弃追价。</li>
-<li>601101 昊华能源：第二天继续观察强弱和量能，若开盘转弱则放弃追价。</li></ul>
+<ul><li>002141 贤丰控股：第二天继续观察强弱和量能，若开盘转弱则放弃追价。</li>
+<li>002137 实益达：第二天继续观察强弱和量能，若开盘转弱则放弃追价。</li></ul>
     </article>
     <nav class="archive"><span>近期记录</span><a href="2026-07-01.html">2026-07-01 A股强势股筛选</a>
 <a href="2026-06-30.html">2026-06-30 A股强势股筛选</a>
