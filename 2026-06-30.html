@@ -10,21 +10,21 @@
   <style>
     :root {
       color-scheme: light;
-      --bg: #f5f7fa;
+      --bg: #f4f6f7;
       --panel: #ffffff;
       --panel-soft: #fafbfc;
-      --text: #1a1a2e;
+      --text: #17212b;
       --muted: #6b7280;
       --line: #e5e7eb;
-      --accent: #6366f1;
-      --accent-ink: #4f46e5;
-      --accent-soft: #eef2ff;
-      --green: #10b981;
-      --red: #ef4444;
-      --yellow: #f59e0b;
-      --radius: 14px;
-      --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
-      --shadow-lg: 0 10px 40px rgba(0,0,0,0.08);
+      --accent: #246b8f;
+      --accent-ink: #1d5877;
+      --accent-soft: #edf5f8;
+      --green: #25866f;
+      --red: #c65353;
+      --yellow: #bd8125;
+      --radius: 16px;
+      --shadow: 0 1px 2px rgba(23,33,43,0.05), 0 8px 24px rgba(23,33,43,0.04);
+      --shadow-lg: 0 16px 40px rgba(23,33,43,0.08);
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
@@ -60,7 +60,7 @@
       margin: 0;
       padding: 0;
       border: 0;
-      font-size: 24px;
+      font-size: 26px;
       font-weight: 700;
     }
     .date {
@@ -71,6 +71,33 @@
       display: flex;
       flex-wrap: wrap;
       gap: 4px;
+    }
+    .section-nav {
+      position: sticky;
+      top: 8px;
+      z-index: 4;
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      margin: -8px 0 18px;
+      padding: 6px;
+      border: 1px solid rgba(36,107,143,0.12);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.88);
+      box-shadow: 0 6px 18px rgba(23,33,43,0.05);
+      backdrop-filter: blur(12px);
+    }
+    .section-nav a {
+      padding: 5px 10px;
+      border-radius: 8px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .section-nav a:hover {
+      background: var(--accent-soft);
+      color: var(--accent-ink);
     }
     .nav-pill {
       display: inline-flex;
@@ -98,6 +125,7 @@
     }
     .card {
       background: var(--panel);
+      border: 1px solid rgba(23,33,43,0.06);
       border-radius: var(--radius);
       padding: 24px;
       margin-bottom: 16px;
@@ -111,6 +139,28 @@
       font-size: 17px;
       font-weight: 600;
     }
+    .card-title::before {
+      content: "";
+      width: 3px;
+      height: 17px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+    .collapsed-card > summary {
+      cursor: pointer;
+      list-style: none;
+      margin-bottom: 0;
+    }
+    .collapsed-card > summary::-webkit-details-marker { display: none; }
+    .collapsed-card > summary::after {
+      content: "展开";
+      margin-left: auto;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .collapsed-card[open] > summary { margin-bottom: 16px; }
+    .collapsed-card[open] > summary::after { content: "收起"; color: var(--accent); }
     .doc-body h1, .doc-body h2, .doc-body h3, .doc-body h4 { line-height: 1.25; letter-spacing: 0; }
     .doc-body h1 + p {
       display: inline-flex;
@@ -153,6 +203,131 @@
     .card > .table-wrap:last-child {
       margin-bottom: 0;
     }
+    .trade-grid {
+      display: grid;
+      gap: 12px;
+    }
+    .trade-card {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: linear-gradient(135deg, #ffffff 0%, #fbfcfc 100%);
+    }
+    .trade-card-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .trade-rank {
+      display: inline-grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      flex: none;
+      border-radius: 9px;
+      background: var(--accent-soft);
+      color: var(--accent-ink);
+      font-size: 13px;
+      font-weight: 750;
+    }
+    .trade-identity {
+      display: grid;
+      min-width: 0;
+      gap: 2px;
+    }
+    .trade-identity strong { font-size: 16px; }
+    .trade-identity span { color: var(--muted); font-size: 12px; }
+    .trade-state {
+      margin-left: auto;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #fff6e6;
+      color: var(--yellow);
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .price-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin: 14px 0;
+    }
+    .price-chip {
+      display: grid;
+      gap: 2px;
+      padding: 9px 10px;
+      border-radius: 10px;
+      background: var(--panel-soft);
+    }
+    .price-chip span, .trade-logic > span:first-child, .trade-rules span, .trade-source > span:first-child {
+      color: var(--muted);
+      font-size: 11px;
+    }
+    .price-chip strong { font-size: 15px; font-variant-numeric: tabular-nums; }
+    .price-breakout { border-left: 3px solid var(--accent); }
+    .price-pullback { border-left: 3px solid var(--yellow); }
+    .price-stop { border-left: 3px solid var(--red); }
+    .trade-logic, .trade-source {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 9px 0;
+      border-top: 1px solid var(--line);
+      font-size: 13px;
+    }
+    .trade-logic > span:last-child, .trade-source > span:last-child {
+      min-width: 0;
+      color: var(--text);
+    }
+    .trade-rules {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 2px;
+    }
+    .trade-rules > div {
+      padding: 10px;
+      border-radius: 10px;
+      background: #f8fafb;
+    }
+    .trade-rules p {
+      margin: 4px 0 0;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .trade-source a, .trade-logic a {
+      color: var(--accent-ink);
+      font-weight: 600;
+    }
+    .sector-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .sector-card {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: start;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--panel-soft);
+    }
+    .sector-rank {
+      color: var(--accent);
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .sector-main { min-width: 0; }
+    .sector-main strong { display: block; font-size: 14px; }
+    .sector-main span { color: var(--muted); font-size: 11px; }
+    .sector-main p { margin: 7px 0 0; font-size: 12px; white-space: normal; }
+    .sector-metric { display: grid; gap: 2px; text-align: right; }
+    .sector-metric span { color: var(--muted); font-size: 10px; }
+    .sector-metric strong { font-size: 12px; font-variant-numeric: tabular-nums; }
     table {
       border-collapse: collapse;
       width: 100%;
@@ -297,24 +472,63 @@
       .card { padding: 16px; }
       .page-head h1 { font-size: 20px; }
       .nav-pill { padding: 6px 12px; font-size: 13px; min-height: 31px; }
+      .section-nav {
+        top: 4px;
+        margin-top: -4px;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        scrollbar-width: none;
+      }
+      .section-nav::-webkit-scrollbar { display: none; }
       .doc-body h1 + p { font-size: 13px; }
       .doc-body h3 { font-size: 16px; }
       table { font-size: 12px; min-width: 640px; }
       .main-stock-table { min-width: 0; font-size: 11px; }
       th, td { padding: 6px 4px; }
       ul { padding: 10px 10px 10px 24px; }
+      .sector-grid { grid-template-columns: 1fr; }
+      .trade-card { padding: 14px; }
+      .trade-identity strong { font-size: 15px; }
+      .trade-rules { grid-template-columns: 1fr; gap: 8px; }
+      .main-stock-table,
+      .main-stock-table thead,
+      .main-stock-table tbody,
+      .main-stock-table tr,
+      .main-stock-table td { display: block; }
+      .main-stock-table thead { display: none; }
+      .main-stock-table tr {
+        padding: 11px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .main-stock-table td {
+        display: grid;
+        grid-template-columns: 62px minmax(0, 1fr);
+        gap: 8px;
+        width: auto !important;
+        padding: 3px 0;
+        border: 0;
+        white-space: normal;
+        word-break: break-word;
+      }
+      .main-stock-table td::before {
+        content: attr(data-label);
+        color: var(--muted);
+        font-size: 10px;
+        line-height: 1.6;
+      }
+      .main-stock-table td:nth-child(7) { font-weight: 700; }
     }
   </style>
 </head>
 <body>
   <main>
     <article>
-      <header class="page-head"><div><h1>2026-06-30 A股强势股筛选</h1><div class="date">每日收盘后自动生成，仅用于观察和复盘</div></div><nav class="page-nav"><a class="nav-pill" href="2026-07-09.html">2026-07-09 A股强势股筛选</a><a class="nav-pill" href="2026-07-08.html">2026-07-08 A股强势股筛选</a><a class="nav-pill" href="2026-07-01.html">2026-07-01 A股强势股筛选</a><a class="nav-pill active" href="2026-06-30.html">2026-06-30 A股强势股筛选</a><a class="nav-pill" href="2026-06-30.html">2026-06-30 A股强势股筛选（新浪临时口径）</a><a class="nav-pill" href="2026-06-29.html">2026-06-29 A股强势股筛选</a></nav></header><div class="doc-body"><section class="card meta-card"><p>数据日期：2026-06-30（最近一个有行情数据的交易日） 生成时间：2026-07-08 04:42</p></section>
+      <header class="page-head"><div><h1>2026-06-30 A股强势股筛选</h1><div class="date">每日收盘后自动生成，仅用于观察和复盘</div></div><nav class="page-nav"><a class="nav-pill" href="2026-07-09.html">2026-07-09 A股强势股筛选</a><a class="nav-pill" href="2026-07-08.html">2026-07-08 A股强势股筛选</a><a class="nav-pill" href="2026-07-01.html">2026-07-01 A股强势股筛选</a><a class="nav-pill active" href="2026-06-30.html">2026-06-30 A股强势股筛选</a><a class="nav-pill" href="2026-06-30.html">2026-06-30 A股强势股筛选（新浪临时口径）</a><a class="nav-pill" href="2026-06-29.html">2026-06-29 A股强势股筛选</a></nav></header><nav class="section-nav" aria-label="页面导航"><a href="#overview">结论</a><a href="#tomorrow">明日作战表</a><a href="#sectors">主线板块</a><a href="#stocks">个股观察池</a><a href="#appendix">附录</a></nav><div class="doc-body"><section class="card meta-card"><p>数据日期：2026-06-30（最近一个有行情数据的交易日） 生成时间：2026-07-08 04:42</p></section>
 <section class="card"><div class="card-title">结论</div><ul><li>严格通过板块规则：1 个</li>
 <li>严格通过个股规则：5 只</li>
 <li>这里只是观察池，不是买入建议；买入还需要后续观察窗口内出现 15 分钟 H2 触发和风控确认。</li></ul></section>
-<section class="card"><div class="card-title">板块筛选</div><div class="table-wrap"><table><thead><tr><th>板块</th><th>严格通过</th><th>板块分</th><th>20日涨幅</th><th>量能比</th><th>20日振幅</th><th>成分数</th><th>广度</th></tr></thead><tbody><tr><td>电子器件</td><td>是</td><td>87.0</td><td>22.4%</td><td>1.25</td><td>7.0%</td><td>107</td><td>62.6%</td></tr></tbody></table></div></section>
-<section class="card"><div class="card-title">个股观察池</div><div class="table-wrap"><table><thead><tr><th>板块</th><th>代码</th><th>名称</th><th>严格通过</th><th>个股分</th><th>20日涨幅</th><th>量能比</th><th>20日振幅</th><th>新高比</th><th>20日成交额</th></tr></thead><tbody><tr><td>电子器件</td><td>300319</td><td>麦捷科技</td><td>是</td><td>74.0</td><td>91.7%</td><td>1.94</td><td>11.4%</td><td>0.89</td><td>46.6亿</td></tr><tr><td>电子器件</td><td>600460</td><td>士兰微</td><td>是</td><td>72.9</td><td>66.6%</td><td>2.14</td><td>6.9%</td><td>0.99</td><td>59.4亿</td></tr><tr><td>电子器件</td><td>002106</td><td>莱宝高科</td><td>是</td><td>63.8</td><td>47.2%</td><td>2.15</td><td>7.4%</td><td>1.00</td><td>8.0亿</td></tr><tr><td>电子器件</td><td>000823</td><td>超声电子</td><td>是</td><td>57.3</td><td>61.2%</td><td>1.91</td><td>9.3%</td><td>0.86</td><td>21.6亿</td></tr><tr><td>电子器件</td><td>002137</td><td>实益达</td><td>是</td><td>55.6</td><td>33.9%</td><td>2.19</td><td>8.4%</td><td>0.97</td><td>8.7亿</td></tr></tbody></table></div></section>
+<section class="card"><div class="card-title">板块筛选</div><div class="table-wrap"><table><thead><tr><th>板块</th><th>严格通过</th><th>板块分</th><th>20日涨幅</th><th>量能比</th><th>20日振幅</th><th>成分数</th><th>广度</th></tr></thead><tbody><tr><td data-label="板块">电子器件</td><td data-label="严格通过">是</td><td data-label="板块分">87.0</td><td data-label="20日涨幅">22.4%</td><td data-label="量能比">1.25</td><td data-label="20日振幅">7.0%</td><td data-label="成分数">107</td><td data-label="广度">62.6%</td></tr></tbody></table></div></section>
+<section class="card"><div class="card-title">个股观察池</div><div class="table-wrap"><table><thead><tr><th>板块</th><th>代码</th><th>名称</th><th>严格通过</th><th>个股分</th><th>20日涨幅</th><th>量能比</th><th>20日振幅</th><th>新高比</th><th>20日成交额</th></tr></thead><tbody><tr><td data-label="板块">电子器件</td><td data-label="代码">300319</td><td data-label="名称">麦捷科技</td><td data-label="严格通过">是</td><td data-label="个股分">74.0</td><td data-label="20日涨幅">91.7%</td><td data-label="量能比">1.94</td><td data-label="20日振幅">11.4%</td><td data-label="新高比">0.89</td><td data-label="20日成交额">46.6亿</td></tr><tr><td data-label="板块">电子器件</td><td data-label="代码">600460</td><td data-label="名称">士兰微</td><td data-label="严格通过">是</td><td data-label="个股分">72.9</td><td data-label="20日涨幅">66.6%</td><td data-label="量能比">2.14</td><td data-label="20日振幅">6.9%</td><td data-label="新高比">0.99</td><td data-label="20日成交额">59.4亿</td></tr><tr><td data-label="板块">电子器件</td><td data-label="代码">002106</td><td data-label="名称">莱宝高科</td><td data-label="严格通过">是</td><td data-label="个股分">63.8</td><td data-label="20日涨幅">47.2%</td><td data-label="量能比">2.15</td><td data-label="20日振幅">7.4%</td><td data-label="新高比">1.00</td><td data-label="20日成交额">8.0亿</td></tr><tr><td data-label="板块">电子器件</td><td data-label="代码">000823</td><td data-label="名称">超声电子</td><td data-label="严格通过">是</td><td data-label="个股分">57.3</td><td data-label="20日涨幅">61.2%</td><td data-label="量能比">1.91</td><td data-label="20日振幅">9.3%</td><td data-label="新高比">0.86</td><td data-label="20日成交额">21.6亿</td></tr><tr><td data-label="板块">电子器件</td><td data-label="代码">002137</td><td data-label="名称">实益达</td><td data-label="严格通过">是</td><td data-label="个股分">55.6</td><td data-label="20日涨幅">33.9%</td><td data-label="量能比">2.19</td><td data-label="20日振幅">8.4%</td><td data-label="新高比">0.97</td><td data-label="20日成交额">8.7亿</td></tr></tbody></table></div></section>
 <section class="card"><div class="card-title">个股交易计划</div><ul><li>当前筛选文件还没有交易计划字段；请重新运行每日筛选。</li></ul></section></div>
     </article>
     <nav class="archive"><span>近期记录</span><a href="2026-07-09.html">2026-07-09 A股强势股筛选</a>

@@ -10,21 +10,21 @@
   <style>
     :root {
       color-scheme: light;
-      --bg: #f5f7fa;
+      --bg: #f4f6f7;
       --panel: #ffffff;
       --panel-soft: #fafbfc;
-      --text: #1a1a2e;
+      --text: #17212b;
       --muted: #6b7280;
       --line: #e5e7eb;
-      --accent: #6366f1;
-      --accent-ink: #4f46e5;
-      --accent-soft: #eef2ff;
-      --green: #10b981;
-      --red: #ef4444;
-      --yellow: #f59e0b;
-      --radius: 14px;
-      --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
-      --shadow-lg: 0 10px 40px rgba(0,0,0,0.08);
+      --accent: #246b8f;
+      --accent-ink: #1d5877;
+      --accent-soft: #edf5f8;
+      --green: #25866f;
+      --red: #c65353;
+      --yellow: #bd8125;
+      --radius: 16px;
+      --shadow: 0 1px 2px rgba(23,33,43,0.05), 0 8px 24px rgba(23,33,43,0.04);
+      --shadow-lg: 0 16px 40px rgba(23,33,43,0.08);
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
@@ -60,7 +60,7 @@
       margin: 0;
       padding: 0;
       border: 0;
-      font-size: 24px;
+      font-size: 26px;
       font-weight: 700;
     }
     .date {
@@ -71,6 +71,33 @@
       display: flex;
       flex-wrap: wrap;
       gap: 4px;
+    }
+    .section-nav {
+      position: sticky;
+      top: 8px;
+      z-index: 4;
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      margin: -8px 0 18px;
+      padding: 6px;
+      border: 1px solid rgba(36,107,143,0.12);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.88);
+      box-shadow: 0 6px 18px rgba(23,33,43,0.05);
+      backdrop-filter: blur(12px);
+    }
+    .section-nav a {
+      padding: 5px 10px;
+      border-radius: 8px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .section-nav a:hover {
+      background: var(--accent-soft);
+      color: var(--accent-ink);
     }
     .nav-pill {
       display: inline-flex;
@@ -98,6 +125,7 @@
     }
     .card {
       background: var(--panel);
+      border: 1px solid rgba(23,33,43,0.06);
       border-radius: var(--radius);
       padding: 24px;
       margin-bottom: 16px;
@@ -111,6 +139,28 @@
       font-size: 17px;
       font-weight: 600;
     }
+    .card-title::before {
+      content: "";
+      width: 3px;
+      height: 17px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+    .collapsed-card > summary {
+      cursor: pointer;
+      list-style: none;
+      margin-bottom: 0;
+    }
+    .collapsed-card > summary::-webkit-details-marker { display: none; }
+    .collapsed-card > summary::after {
+      content: "展开";
+      margin-left: auto;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .collapsed-card[open] > summary { margin-bottom: 16px; }
+    .collapsed-card[open] > summary::after { content: "收起"; color: var(--accent); }
     .doc-body h1, .doc-body h2, .doc-body h3, .doc-body h4 { line-height: 1.25; letter-spacing: 0; }
     .doc-body h1 + p {
       display: inline-flex;
@@ -153,6 +203,131 @@
     .card > .table-wrap:last-child {
       margin-bottom: 0;
     }
+    .trade-grid {
+      display: grid;
+      gap: 12px;
+    }
+    .trade-card {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: linear-gradient(135deg, #ffffff 0%, #fbfcfc 100%);
+    }
+    .trade-card-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .trade-rank {
+      display: inline-grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      flex: none;
+      border-radius: 9px;
+      background: var(--accent-soft);
+      color: var(--accent-ink);
+      font-size: 13px;
+      font-weight: 750;
+    }
+    .trade-identity {
+      display: grid;
+      min-width: 0;
+      gap: 2px;
+    }
+    .trade-identity strong { font-size: 16px; }
+    .trade-identity span { color: var(--muted); font-size: 12px; }
+    .trade-state {
+      margin-left: auto;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #fff6e6;
+      color: var(--yellow);
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .price-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin: 14px 0;
+    }
+    .price-chip {
+      display: grid;
+      gap: 2px;
+      padding: 9px 10px;
+      border-radius: 10px;
+      background: var(--panel-soft);
+    }
+    .price-chip span, .trade-logic > span:first-child, .trade-rules span, .trade-source > span:first-child {
+      color: var(--muted);
+      font-size: 11px;
+    }
+    .price-chip strong { font-size: 15px; font-variant-numeric: tabular-nums; }
+    .price-breakout { border-left: 3px solid var(--accent); }
+    .price-pullback { border-left: 3px solid var(--yellow); }
+    .price-stop { border-left: 3px solid var(--red); }
+    .trade-logic, .trade-source {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 9px 0;
+      border-top: 1px solid var(--line);
+      font-size: 13px;
+    }
+    .trade-logic > span:last-child, .trade-source > span:last-child {
+      min-width: 0;
+      color: var(--text);
+    }
+    .trade-rules {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 2px;
+    }
+    .trade-rules > div {
+      padding: 10px;
+      border-radius: 10px;
+      background: #f8fafb;
+    }
+    .trade-rules p {
+      margin: 4px 0 0;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .trade-source a, .trade-logic a {
+      color: var(--accent-ink);
+      font-weight: 600;
+    }
+    .sector-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .sector-card {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: start;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--panel-soft);
+    }
+    .sector-rank {
+      color: var(--accent);
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .sector-main { min-width: 0; }
+    .sector-main strong { display: block; font-size: 14px; }
+    .sector-main span { color: var(--muted); font-size: 11px; }
+    .sector-main p { margin: 7px 0 0; font-size: 12px; white-space: normal; }
+    .sector-metric { display: grid; gap: 2px; text-align: right; }
+    .sector-metric span { color: var(--muted); font-size: 10px; }
+    .sector-metric strong { font-size: 12px; font-variant-numeric: tabular-nums; }
     table {
       border-collapse: collapse;
       width: 100%;
@@ -297,24 +472,63 @@
       .card { padding: 16px; }
       .page-head h1 { font-size: 20px; }
       .nav-pill { padding: 6px 12px; font-size: 13px; min-height: 31px; }
+      .section-nav {
+        top: 4px;
+        margin-top: -4px;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        scrollbar-width: none;
+      }
+      .section-nav::-webkit-scrollbar { display: none; }
       .doc-body h1 + p { font-size: 13px; }
       .doc-body h3 { font-size: 16px; }
       table { font-size: 12px; min-width: 640px; }
       .main-stock-table { min-width: 0; font-size: 11px; }
       th, td { padding: 6px 4px; }
       ul { padding: 10px 10px 10px 24px; }
+      .sector-grid { grid-template-columns: 1fr; }
+      .trade-card { padding: 14px; }
+      .trade-identity strong { font-size: 15px; }
+      .trade-rules { grid-template-columns: 1fr; gap: 8px; }
+      .main-stock-table,
+      .main-stock-table thead,
+      .main-stock-table tbody,
+      .main-stock-table tr,
+      .main-stock-table td { display: block; }
+      .main-stock-table thead { display: none; }
+      .main-stock-table tr {
+        padding: 11px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .main-stock-table td {
+        display: grid;
+        grid-template-columns: 62px minmax(0, 1fr);
+        gap: 8px;
+        width: auto !important;
+        padding: 3px 0;
+        border: 0;
+        white-space: normal;
+        word-break: break-word;
+      }
+      .main-stock-table td::before {
+        content: attr(data-label);
+        color: var(--muted);
+        font-size: 10px;
+        line-height: 1.6;
+      }
+      .main-stock-table td:nth-child(7) { font-weight: 700; }
     }
   </style>
 </head>
 <body>
   <main>
     <article>
-      <header class="page-head"><div><h1>2026-06-29 A股强势股筛选</h1><div class="date">每日收盘后自动生成，仅用于观察和复盘</div></div><nav class="page-nav"><a class="nav-pill" href="2026-07-09.html">2026-07-09 A股强势股筛选</a><a class="nav-pill" href="2026-07-08.html">2026-07-08 A股强势股筛选</a><a class="nav-pill" href="2026-07-01.html">2026-07-01 A股强势股筛选</a><a class="nav-pill" href="2026-06-30.html">2026-06-30 A股强势股筛选</a><a class="nav-pill" href="2026-06-30.html">2026-06-30 A股强势股筛选（新浪临时口径）</a><a class="nav-pill active" href="2026-06-29.html">2026-06-29 A股强势股筛选</a></nav></header><div class="doc-body"><section class="card meta-card"><p>数据日期：2026-06-29（最近一个有行情数据的交易日） 生成时间：2026-06-29 22:38</p></section>
+      <header class="page-head"><div><h1>2026-06-29 A股强势股筛选</h1><div class="date">每日收盘后自动生成，仅用于观察和复盘</div></div><nav class="page-nav"><a class="nav-pill" href="2026-07-09.html">2026-07-09 A股强势股筛选</a><a class="nav-pill" href="2026-07-08.html">2026-07-08 A股强势股筛选</a><a class="nav-pill" href="2026-07-01.html">2026-07-01 A股强势股筛选</a><a class="nav-pill" href="2026-06-30.html">2026-06-30 A股强势股筛选</a><a class="nav-pill" href="2026-06-30.html">2026-06-30 A股强势股筛选（新浪临时口径）</a><a class="nav-pill active" href="2026-06-29.html">2026-06-29 A股强势股筛选</a></nav></header><nav class="section-nav" aria-label="页面导航"><a href="#overview">结论</a><a href="#tomorrow">明日作战表</a><a href="#sectors">主线板块</a><a href="#stocks">个股观察池</a><a href="#appendix">附录</a></nav><div class="doc-body"><section class="card meta-card"><p>数据日期：2026-06-29（最近一个有行情数据的交易日） 生成时间：2026-06-29 22:38</p></section>
 <section class="card"><div class="card-title">结论</div><ul><li>严格通过板块规则：0 个</li>
 <li>严格通过个股规则：5 只</li>
 <li>这里只是观察池，不是买入建议；买入还需要后续观察窗口内出现 15 分钟 H2 触发和风控确认。</li></ul></section>
-<section class="card"><div class="card-title">板块筛选</div><div class="table-wrap"><table><thead><tr><th>板块</th><th>严格通过</th><th>板块分</th><th>20日涨幅</th><th>量能比</th><th>20日振幅</th><th>成分数</th><th>广度</th></tr></thead><tbody><tr><td>半导体材料</td><td>否</td><td>93.7</td><td>54.6%</td><td>1.93</td><td>6.0%</td><td>27</td><td>100.0%</td></tr><tr><td>橡胶助剂</td><td>否</td><td>81.7</td><td>40.5%</td><td>2.05</td><td>6.0%</td><td>2</td><td>50.0%</td></tr><tr><td>半导体设备</td><td>否</td><td>79.0</td><td>54.9%</td><td>1.44</td><td>5.4%</td><td>22</td><td>100.0%</td></tr><tr><td>钨</td><td>否</td><td>79.0</td><td>41.6%</td><td>1.74</td><td>8.1%</td><td>4</td><td>75.0%</td></tr><tr><td>钼</td><td>否</td><td>77.8</td><td>19.3%</td><td>2.43</td><td>6.0%</td><td>1</td><td>100.0%</td></tr><tr><td>玻纤制造</td><td>否</td><td>74.7</td><td>31.3%</td><td>1.72</td><td>6.1%</td><td>7</td><td>85.7%</td></tr></tbody></table></div></section>
-<section class="card"><div class="card-title">个股观察池</div><div class="table-wrap"><table><thead><tr><th>板块</th><th>代码</th><th>名称</th><th>严格通过</th><th>个股分</th><th>20日涨幅</th><th>量能比</th><th>20日振幅</th><th>新高比</th><th>20日成交额</th></tr></thead><tbody><tr><td>半导体材料</td><td>688432</td><td>有研硅</td><td>是</td><td>90.0</td><td>94.8%</td><td>1.93</td><td>11.4%</td><td>1.00</td><td>12.7亿</td></tr><tr><td>半导体材料</td><td>603991</td><td>领先股份</td><td>是</td><td>27.0</td><td>24.2%</td><td>1.82</td><td>6.4%</td><td>0.92</td><td>5.5亿</td></tr><tr><td>半导体设备</td><td>688729</td><td>XD屹唐股</td><td>是</td><td>74.0</td><td>50.0%</td><td>2.25</td><td>8.1%</td><td>0.93</td><td>8.7亿</td></tr><tr><td>半导体设备</td><td>603690</td><td>至纯科技</td><td>是</td><td>45.0</td><td>42.0%</td><td>1.86</td><td>6.9%</td><td>0.88</td><td>10.7亿</td></tr><tr><td>钼</td><td>601958</td><td>金钼股份</td><td>是</td><td>64.0</td><td>22.3%</td><td>2.50</td><td>7.3%</td><td>0.93</td><td>34.2亿</td></tr></tbody></table></div></section></div>
+<section class="card"><div class="card-title">板块筛选</div><div class="table-wrap"><table><thead><tr><th>板块</th><th>严格通过</th><th>板块分</th><th>20日涨幅</th><th>量能比</th><th>20日振幅</th><th>成分数</th><th>广度</th></tr></thead><tbody><tr><td data-label="板块">半导体材料</td><td data-label="严格通过">否</td><td data-label="板块分">93.7</td><td data-label="20日涨幅">54.6%</td><td data-label="量能比">1.93</td><td data-label="20日振幅">6.0%</td><td data-label="成分数">27</td><td data-label="广度">100.0%</td></tr><tr><td data-label="板块">橡胶助剂</td><td data-label="严格通过">否</td><td data-label="板块分">81.7</td><td data-label="20日涨幅">40.5%</td><td data-label="量能比">2.05</td><td data-label="20日振幅">6.0%</td><td data-label="成分数">2</td><td data-label="广度">50.0%</td></tr><tr><td data-label="板块">半导体设备</td><td data-label="严格通过">否</td><td data-label="板块分">79.0</td><td data-label="20日涨幅">54.9%</td><td data-label="量能比">1.44</td><td data-label="20日振幅">5.4%</td><td data-label="成分数">22</td><td data-label="广度">100.0%</td></tr><tr><td data-label="板块">钨</td><td data-label="严格通过">否</td><td data-label="板块分">79.0</td><td data-label="20日涨幅">41.6%</td><td data-label="量能比">1.74</td><td data-label="20日振幅">8.1%</td><td data-label="成分数">4</td><td data-label="广度">75.0%</td></tr><tr><td data-label="板块">钼</td><td data-label="严格通过">否</td><td data-label="板块分">77.8</td><td data-label="20日涨幅">19.3%</td><td data-label="量能比">2.43</td><td data-label="20日振幅">6.0%</td><td data-label="成分数">1</td><td data-label="广度">100.0%</td></tr><tr><td data-label="板块">玻纤制造</td><td data-label="严格通过">否</td><td data-label="板块分">74.7</td><td data-label="20日涨幅">31.3%</td><td data-label="量能比">1.72</td><td data-label="20日振幅">6.1%</td><td data-label="成分数">7</td><td data-label="广度">85.7%</td></tr></tbody></table></div></section>
+<section class="card"><div class="card-title">个股观察池</div><div class="table-wrap"><table><thead><tr><th>板块</th><th>代码</th><th>名称</th><th>严格通过</th><th>个股分</th><th>20日涨幅</th><th>量能比</th><th>20日振幅</th><th>新高比</th><th>20日成交额</th></tr></thead><tbody><tr><td data-label="板块">半导体材料</td><td data-label="代码">688432</td><td data-label="名称">有研硅</td><td data-label="严格通过">是</td><td data-label="个股分">90.0</td><td data-label="20日涨幅">94.8%</td><td data-label="量能比">1.93</td><td data-label="20日振幅">11.4%</td><td data-label="新高比">1.00</td><td data-label="20日成交额">12.7亿</td></tr><tr><td data-label="板块">半导体材料</td><td data-label="代码">603991</td><td data-label="名称">领先股份</td><td data-label="严格通过">是</td><td data-label="个股分">27.0</td><td data-label="20日涨幅">24.2%</td><td data-label="量能比">1.82</td><td data-label="20日振幅">6.4%</td><td data-label="新高比">0.92</td><td data-label="20日成交额">5.5亿</td></tr><tr><td data-label="板块">半导体设备</td><td data-label="代码">688729</td><td data-label="名称">XD屹唐股</td><td data-label="严格通过">是</td><td data-label="个股分">74.0</td><td data-label="20日涨幅">50.0%</td><td data-label="量能比">2.25</td><td data-label="20日振幅">8.1%</td><td data-label="新高比">0.93</td><td data-label="20日成交额">8.7亿</td></tr><tr><td data-label="板块">半导体设备</td><td data-label="代码">603690</td><td data-label="名称">至纯科技</td><td data-label="严格通过">是</td><td data-label="个股分">45.0</td><td data-label="20日涨幅">42.0%</td><td data-label="量能比">1.86</td><td data-label="20日振幅">6.9%</td><td data-label="新高比">0.88</td><td data-label="20日成交额">10.7亿</td></tr><tr><td data-label="板块">钼</td><td data-label="代码">601958</td><td data-label="名称">金钼股份</td><td data-label="严格通过">是</td><td data-label="个股分">64.0</td><td data-label="20日涨幅">22.3%</td><td data-label="量能比">2.50</td><td data-label="20日振幅">7.3%</td><td data-label="新高比">0.93</td><td data-label="20日成交额">34.2亿</td></tr></tbody></table></div></section></div>
     </article>
     <nav class="archive"><span>近期记录</span><a href="2026-07-09.html">2026-07-09 A股强势股筛选</a>
 <a href="2026-07-08.html">2026-07-08 A股强势股筛选</a>
