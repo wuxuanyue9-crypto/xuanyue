@@ -11,16 +11,16 @@
     :root {
       color-scheme: light;
       --bg: #eef1f4;
-      --bg-grid: rgba(20, 23, 31, 0.04);
+      --bg-grid: rgba(20, 23, 31, 0.045);
       --panel: #ffffff;
       --panel-soft: #f8fafb;
-      --text: #14171f;
-      --muted: #647084;
-      --line: #d7dde6;
+      --text: #11171f;
+      --muted: #5e6a7a;
+      --line: #d8dee6;
       --line-strong: #aeb8c7;
-      --accent: #0b6f68;
-      --accent-ink: #084c48;
-      --accent-soft: #e2f4f1;
+      --accent: #0f746d;
+      --accent-ink: #0b4f4a;
+      --accent-soft: #e3f3f0;
       --gold: #9a6a16;
       --gold-soft: #fff3d6;
       --blue: #3451a3;
@@ -46,20 +46,101 @@
     }
     article {
       background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 6px;
+      border: 1px solid rgba(216, 222, 230, 0.85);
+      border-radius: 12px;
       box-shadow: var(--shadow);
-      padding: 30px;
+      padding: 26px;
     }
-    h1, h2, h3, h4 { line-height: 1.25; letter-spacing: 0; }
-    h1 {
+    .page-head {
+      margin-bottom: 18px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-ink);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .page-head h1 {
       margin: 0;
-      padding: 0 0 18px;
-      border-bottom: 2px solid var(--text);
+      padding: 0;
+      border: 0;
       font-size: 34px;
       font-weight: 760;
     }
-    h1 + p {
+    .topbar, .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: #1fbf75;
+      box-shadow: 0 0 0 4px rgba(31, 191, 117, 0.12);
+    }
+    .page-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .nav-pill, .cta-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 36px;
+      padding: 0 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .nav-pill.active {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      color: var(--accent-ink);
+    }
+    .cta-button {
+      background: var(--text);
+      color: #fff;
+      border-color: var(--text);
+    }
+    .summary-card {
+      margin-top: 18px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: linear-gradient(180deg, #fff 0%, #f9fbfc 100%);
+    }
+    .summary-title {
+      margin-bottom: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+    .doc-body h1, .doc-body h2, .doc-body h3, .doc-body h4 { line-height: 1.25; letter-spacing: 0; }
+    .doc-body h1 + p {
       display: inline-flex;
       flex-wrap: wrap;
       gap: 10px;
@@ -71,37 +152,42 @@
       color: var(--muted);
       font-size: 14px;
     }
-    h2 {
+    .doc-body h2 {
       display: flex;
       align-items: center;
       gap: 10px;
       margin: 34px 0 14px;
-      padding: 14px 0 10px;
-      border-top: 1px solid var(--line-strong);
+      padding: 14px 14px 10px;
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--accent);
+      border-radius: 10px 10px 0 0;
+      background: linear-gradient(180deg, #fff 0%, #f8fafb 100%);
       font-size: 22px;
       font-weight: 720;
     }
-    h2::before {
-      content: "";
-      width: 7px;
-      height: 22px;
-      border-radius: 2px;
-      background: var(--accent);
-      flex: none;
+    .doc-body h2 + .table-wrap {
+      margin-top: -1px;
+      border-top: 0;
+      border-radius: 0 0 12px 12px;
     }
-    h3 {
+    .doc-body h2::before {
+      content: " ";
+      width: 0;
+      height: 0;
+    }
+    .doc-body h3 {
       margin: 24px 0 8px;
       font-size: 18px;
       color: var(--accent-ink);
     }
-    h4 {
+    .doc-body h4 {
       margin: 14px 0 8px;
       font-size: 15px;
       color: var(--blue);
     }
-    p, ul, blockquote { margin: 10px 0; }
+    .doc-body p, .doc-body ul, .doc-body blockquote { margin: 10px 0; }
     .lead { color: var(--muted); }
-    ul {
+    .doc-body ul {
       padding: 12px 14px 12px 28px;
       border: 1px solid var(--line);
       border-radius: 6px;
@@ -112,8 +198,12 @@
       overflow-x: auto;
       margin: 14px 0 24px;
       border: 1px solid var(--line);
-      border-radius: 6px;
+      border-radius: 12px;
       background: #fff;
+    }
+    .doc-body > .table-wrap:first-of-type {
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
     }
     table {
       border-collapse: separate;
@@ -202,10 +292,10 @@
     @media (max-width: 680px) {
       main { padding: 10px; }
       article { padding: 18px 12px; border-radius: 6px; }
-      h1 { font-size: 24px; }
-      h1 + p { font-size: 13px; }
-      h2 { font-size: 18px; margin-top: 28px; }
-      h3 { font-size: 16px; }
+      .page-head h1 { font-size: 24px; }
+      .doc-body h1 + p { font-size: 13px; }
+      .doc-body h2 { font-size: 18px; margin-top: 28px; }
+      .doc-body h3 { font-size: 16px; }
       th, td { padding: 8px 9px; font-size: 13px; }
       ul { padding: 10px 10px 10px 24px; }
     }
@@ -214,13 +304,13 @@
 <body>
   <main>
     <article>
-      <h1>A股强势股筛选</h1><p class="lead">每日收盘后自动生成的强势股观察池，仅用于复盘和观察。</p><ul class="archive-list"><li><span>最新</span><a href="2026-07-09.html">2026-07-09 A股强势股筛选</a></li>
+      <header class="page-head"><div class="eyebrow">强势股策略 / 静态发布</div><h1>A股强势股筛选</h1><p class="lead">每日收盘后自动生成的强势股观察池，仅用于复盘和观察。</p><div class="cta-row"><a class="cta-button" href="latest.html">打开最新页面</a><span class="cta-note">保留历史归档与每日更新</span></div></header><section class="summary-card"><div class="summary-title">最近记录</div><ul class="archive-list"><li><span>最新</span><a href="2026-07-09.html">2026-07-09 A股强势股筛选</a></li>
 <li><span>历史</span><a href="2026-07-08.html">2026-07-08 A股强势股筛选</a></li>
 <li><span>历史</span><a href="2026-07-01.html">2026-07-01 A股强势股筛选</a></li>
 <li><span>历史</span><a href="2026-06-30.html">2026-06-30 A股强势股筛选</a></li>
 <li><span>历史</span><a href="2026-06-30.html">2026-06-30 A股强势股筛选（新浪临时口径）</a></li>
 <li><span>历史</span><a href="2026-06-29.html">2026-06-29 A股强势股筛选</a></li>
-<li><span>历史</span><a href="2026-06-26.html">2026-06-26 A股强势股筛选</a></li></ul>
+<li><span>历史</span><a href="2026-06-26.html">2026-06-26 A股强势股筛选</a></li></ul></section>
     </article>
     
   </main>

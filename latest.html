@@ -11,16 +11,16 @@
     :root {
       color-scheme: light;
       --bg: #eef1f4;
-      --bg-grid: rgba(20, 23, 31, 0.04);
+      --bg-grid: rgba(20, 23, 31, 0.045);
       --panel: #ffffff;
       --panel-soft: #f8fafb;
-      --text: #14171f;
-      --muted: #647084;
-      --line: #d7dde6;
+      --text: #11171f;
+      --muted: #5e6a7a;
+      --line: #d8dee6;
       --line-strong: #aeb8c7;
-      --accent: #0b6f68;
-      --accent-ink: #084c48;
-      --accent-soft: #e2f4f1;
+      --accent: #0f746d;
+      --accent-ink: #0b4f4a;
+      --accent-soft: #e3f3f0;
       --gold: #9a6a16;
       --gold-soft: #fff3d6;
       --blue: #3451a3;
@@ -46,20 +46,101 @@
     }
     article {
       background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 6px;
+      border: 1px solid rgba(216, 222, 230, 0.85);
+      border-radius: 12px;
       box-shadow: var(--shadow);
-      padding: 30px;
+      padding: 26px;
     }
-    h1, h2, h3, h4 { line-height: 1.25; letter-spacing: 0; }
-    h1 {
+    .page-head {
+      margin-bottom: 18px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-ink);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .page-head h1 {
       margin: 0;
-      padding: 0 0 18px;
-      border-bottom: 2px solid var(--text);
+      padding: 0;
+      border: 0;
       font-size: 34px;
       font-weight: 760;
     }
-    h1 + p {
+    .topbar, .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: #1fbf75;
+      box-shadow: 0 0 0 4px rgba(31, 191, 117, 0.12);
+    }
+    .page-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .nav-pill, .cta-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 36px;
+      padding: 0 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .nav-pill.active {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      color: var(--accent-ink);
+    }
+    .cta-button {
+      background: var(--text);
+      color: #fff;
+      border-color: var(--text);
+    }
+    .summary-card {
+      margin-top: 18px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: linear-gradient(180deg, #fff 0%, #f9fbfc 100%);
+    }
+    .summary-title {
+      margin-bottom: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+    .doc-body h1, .doc-body h2, .doc-body h3, .doc-body h4 { line-height: 1.25; letter-spacing: 0; }
+    .doc-body h1 + p {
       display: inline-flex;
       flex-wrap: wrap;
       gap: 10px;
@@ -71,37 +152,42 @@
       color: var(--muted);
       font-size: 14px;
     }
-    h2 {
+    .doc-body h2 {
       display: flex;
       align-items: center;
       gap: 10px;
       margin: 34px 0 14px;
-      padding: 14px 0 10px;
-      border-top: 1px solid var(--line-strong);
+      padding: 14px 14px 10px;
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--accent);
+      border-radius: 10px 10px 0 0;
+      background: linear-gradient(180deg, #fff 0%, #f8fafb 100%);
       font-size: 22px;
       font-weight: 720;
     }
-    h2::before {
-      content: "";
-      width: 7px;
-      height: 22px;
-      border-radius: 2px;
-      background: var(--accent);
-      flex: none;
+    .doc-body h2 + .table-wrap {
+      margin-top: -1px;
+      border-top: 0;
+      border-radius: 0 0 12px 12px;
     }
-    h3 {
+    .doc-body h2::before {
+      content: " ";
+      width: 0;
+      height: 0;
+    }
+    .doc-body h3 {
       margin: 24px 0 8px;
       font-size: 18px;
       color: var(--accent-ink);
     }
-    h4 {
+    .doc-body h4 {
       margin: 14px 0 8px;
       font-size: 15px;
       color: var(--blue);
     }
-    p, ul, blockquote { margin: 10px 0; }
+    .doc-body p, .doc-body ul, .doc-body blockquote { margin: 10px 0; }
     .lead { color: var(--muted); }
-    ul {
+    .doc-body ul {
       padding: 12px 14px 12px 28px;
       border: 1px solid var(--line);
       border-radius: 6px;
@@ -112,8 +198,12 @@
       overflow-x: auto;
       margin: 14px 0 24px;
       border: 1px solid var(--line);
-      border-radius: 6px;
+      border-radius: 12px;
       background: #fff;
+    }
+    .doc-body > .table-wrap:first-of-type {
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
     }
     table {
       border-collapse: separate;
@@ -202,10 +292,10 @@
     @media (max-width: 680px) {
       main { padding: 10px; }
       article { padding: 18px 12px; border-radius: 6px; }
-      h1 { font-size: 24px; }
-      h1 + p { font-size: 13px; }
-      h2 { font-size: 18px; margin-top: 28px; }
-      h3 { font-size: 16px; }
+      .page-head h1 { font-size: 24px; }
+      .doc-body h1 + p { font-size: 13px; }
+      .doc-body h2 { font-size: 18px; margin-top: 28px; }
+      .doc-body h3 { font-size: 16px; }
       th, td { padding: 8px 9px; font-size: 13px; }
       ul { padding: 10px 10px 10px 24px; }
     }
@@ -214,7 +304,7 @@
 <body>
   <main>
     <article>
-      <h1>2026-07-09 A股强势股筛选</h1>
+      <header class="page-head"><div class="eyebrow">交易复盘 / 观察池</div><h1>2026-07-09 A股强势股筛选</h1><div class="topbar"><span class="status-dot"></span><span>每日收盘后自动生成</span><span>仅用于观察和复盘</span></div><div class="page-nav"><a class="nav-pill active" href="2026-07-09.html">2026-07-09 A股强势股筛选</a><a class="nav-pill" href="2026-07-08.html">2026-07-08 A股强势股筛选</a><a class="nav-pill" href="2026-07-01.html">2026-07-01 A股强势股筛选</a><a class="nav-pill" href="2026-06-30.html">2026-06-30 A股强势股筛选</a><a class="nav-pill" href="2026-06-30.html">2026-06-30 A股强势股筛选（新浪临时口径）</a><a class="nav-pill" href="2026-06-29.html">2026-06-29 A股强势股筛选</a></div></header><div class="doc-body"><h1>2026-07-09 A股强势股筛选</h1>
 <div class="table-wrap"><table><thead><tr><th>字段</th><th>值</th></tr></thead><tbody><tr><td>数据日期</td><td>2026-07-09（最近一个有行情数据的交易日）</td></tr><tr><td>生成时间</td><td>2026-07-09 21:00</td></tr><tr><td>数据源</td><td>Tushare daily/daily_basic + 东方财富行业成分 + Obsidian逻辑库</td></tr></tbody></table></div>
 <h2>第一部分：主线板块分析</h2>
 <div class="table-wrap"><table><thead><tr><th>主线</th><th>类型</th><th>前1%个股数</th><th>均成交额</th><th>均换手率</th></tr></thead><tbody><tr><td>电子</td><td>板块</td><td>27</td><td>130.7亿</td><td>12.84%</td></tr><tr><td>通信设备</td><td>板块</td><td>10</td><td>160.9亿</td><td>10.76%</td></tr><tr><td>IT设备</td><td>板块</td><td>4</td><td>132.8亿</td><td>12.47%</td></tr><tr><td>存储</td><td>概念</td><td>3</td><td>119.8亿</td><td>12.80%</td></tr><tr><td>化工原料</td><td>板块</td><td>2</td><td>66.3亿</td><td>16.93%</td></tr><tr><td>玻璃</td><td>板块</td><td>2</td><td>106.1亿</td><td>9.71%</td></tr><tr><td>电气设备</td><td>板块</td><td>2</td><td>69.1亿</td><td>12.11%</td></tr><tr><td>新型电力</td><td>板块</td><td>1</td><td>50.8亿</td><td>31.97%</td></tr></tbody></table></div>
@@ -227,7 +317,7 @@
 <div class="table-wrap"><table><thead><tr><th>板块</th><th>代码</th><th>名称</th><th>状态</th><th>形态</th><th>突破计划价</th><th>回踩观察价</th><th>结构止损</th><th>止盈1</th><th>止盈2</th><th>执行说明</th></tr></thead><tbody><tr><td>电子</td><td>603986</td><td>兆易创新</td><td>待PA确认</td><td>强势放量待二段确认</td><td>670.12</td><td>643.59</td><td>610.41</td><td>729.84</td><td>796.19</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>电子</td><td>000725</td><td>京东方Ａ</td><td>待PA确认</td><td>强势放量待二段确认</td><td>8.23</td><td>7.91</td><td>7.50</td><td>8.97</td><td>9.78</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>通信设备</td><td>000063</td><td>中兴通讯</td><td>待PA确认</td><td>强势放量待二段确认</td><td>40.73</td><td>39.12</td><td>37.10</td><td>44.36</td><td>48.40</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>IT设备</td><td>000977</td><td>浪潮信息</td><td>待PA确认</td><td>强势放量待二段确认</td><td>86.85</td><td>83.41</td><td>79.11</td><td>94.59</td><td>103.19</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>电子</td><td>600584</td><td>长电科技</td><td>待PA确认</td><td>强势放量待二段确认</td><td>104.56</td><td>100.41</td><td>95.24</td><td>113.87</td><td>124.22</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>IT设备</td><td>000938</td><td>紫光股份</td><td>待PA确认</td><td>强势放量待二段确认</td><td>36.04</td><td>34.61</td><td>32.83</td><td>39.25</td><td>42.82</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>电子</td><td>002384</td><td>东山精密</td><td>待PA确认</td><td>强势放量待二段确认</td><td>263.93</td><td>253.48</td><td>240.41</td><td>287.45</td><td>313.58</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>通信设备</td><td>600487</td><td>亨通光电</td><td>待PA确认</td><td>强势放量待二段确认</td><td>80.86</td><td>77.66</td><td>73.66</td><td>88.07</td><td>96.07</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>电子</td><td>688981</td><td>中芯国际</td><td>待PA确认</td><td>强势放量待二段确认</td><td>174.73</td><td>167.81</td><td>159.16</td><td>190.30</td><td>207.60</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>新型电力</td><td>001248</td><td>C华润新能源</td><td>只观察</td><td>趋势观察待突破</td><td>14.93</td><td>14.34</td><td>13.60</td><td>16.26</td><td>17.74</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>机械基件</td><td>002747</td><td>埃斯顿</td><td>只观察</td><td>趋势观察待突破</td><td>41.95</td><td>40.28</td><td>38.21</td><td>45.68</td><td>49.84</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>电子</td><td>688008</td><td>澜起科技</td><td>待PA确认</td><td>强势放量待二段确认</td><td>288.66</td><td>277.23</td><td>262.94</td><td>314.38</td><td>342.96</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>通信设备</td><td>600522</td><td>中天科技</td><td>待PA确认</td><td>强势放量待二段确认</td><td>47.61</td><td>45.73</td><td>43.37</td><td>51.85</td><td>56.57</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>电子</td><td>688802</td><td>沐曦股份-U</td><td>待PA确认</td><td>强势放量待二段确认</td><td>991.70</td><td>952.42</td><td>903.33</td><td>1080.07</td><td>1178.26</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>电子</td><td>688820</td><td>盛合晶微</td><td>待PA确认</td><td>强势放量待二段确认</td><td>213.05</td><td>204.61</td><td>194.06</td><td>232.03</td><td>253.13</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>电子</td><td>002185</td><td>华天科技</td><td>待PA确认</td><td>强势放量待二段确认</td><td>23.97</td><td>23.02</td><td>21.83</td><td>26.10</td><td>28.48</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>矿物制品</td><td>600172</td><td>黄河旋风</td><td>待PA确认</td><td>强势放量待二段确认</td><td>18.89</td><td>18.14</td><td>17.20</td><td>20.57</td><td>22.44</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>半导体</td><td>600667</td><td>太极实业</td><td>待PA确认</td><td>强势放量待二段确认</td><td>26.53</td><td>25.48</td><td>24.17</td><td>28.90</td><td>31.52</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>电子</td><td>001309</td><td>德明利</td><td>待PA确认</td><td>强势放量待二段确认</td><td>869.08</td><td>834.67</td><td>791.64</td><td>946.53</td><td>1032.58</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>通信设备</td><td>300308</td><td>中际旭创</td><td>待PA确认</td><td>强势放量待二段确认</td><td>1206.85</td><td>1159.05</td><td>1099.31</td><td>1314.39</td><td>1433.88</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>电子</td><td>300285</td><td>国瓷材料</td><td>待PA确认</td><td>趋势观察待突破</td><td>81.61</td><td>78.38</td><td>74.34</td><td>88.88</td><td>96.96</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>电子</td><td>688525</td><td>佰维存储</td><td>待PA确认</td><td>强势放量待二段确认</td><td>423.07</td><td>406.31</td><td>385.37</td><td>460.77</td><td>502.66</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>电子</td><td>002156</td><td>通富微电</td><td>待PA确认</td><td>强势放量待二段确认</td><td>72.89</td><td>70.00</td><td>66.40</td><td>79.39</td><td>86.60</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>互联网</td><td>300418</td><td>昆仑万维</td><td>待PA确认</td><td>强势放量待二段确认</td><td>50.92</td><td>48.91</td><td>46.39</td><td>55.46</td><td>60.50</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>电子</td><td>688795</td><td>摩尔线程-U</td><td>待PA确认</td><td>强势放量待二段确认</td><td>766.59</td><td>736.23</td><td>698.28</td><td>834.90</td><td>910.80</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>电子</td><td>000021</td><td>深科技</td><td>待PA确认</td><td>强势放量待二段确认</td><td>56.80</td><td>54.55</td><td>51.74</td><td>61.86</td><td>67.49</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>化工原料</td><td>002407</td><td>多氟多</td><td>待PA确认</td><td>强势放量待二段确认</td><td>44.09</td><td>42.34</td><td>40.16</td><td>48.02</td><td>52.38</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>电子</td><td>600206</td><td>有研新材</td><td>待PA确认</td><td>强势放量待二段确认</td><td>59.97</td><td>57.60</td><td>54.63</td><td>65.32</td><td>71.26</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>小金属</td><td>002428</td><td>云南锗业</td><td>待PA确认</td><td>强势放量待二段确认</td><td>104.01</td><td>99.89</td><td>94.74</td><td>113.28</td><td>123.58</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>电子</td><td>300604</td><td>长川科技</td><td>待PA确认</td><td>强势放量待二段确认</td><td>377.74</td><td>362.78</td><td>344.08</td><td>411.40</td><td>448.80</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>石油开采</td><td>300164</td><td>通源石油</td><td>待PA确认</td><td>强势放量待二段确认</td><td>9.27</td><td>8.90</td><td>8.45</td><td>10.10</td><td>11.02</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>IT设备</td><td>603019</td><td>中科曙光</td><td>待PA确认</td><td>强势放量待二段确认</td><td>105.03</td><td>100.87</td><td>95.67</td><td>114.39</td><td>124.79</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>电子</td><td>001399</td><td>C惠科</td><td>待PA确认</td><td>强势放量待二段确认</td><td>38.95</td><td>37.40</td><td>35.48</td><td>42.42</td><td>46.27</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>化工原料</td><td>300821</td><td>东岳硅材</td><td>待PA确认</td><td>强势放量待二段确认</td><td>30.63</td><td>29.42</td><td>27.90</td><td>33.36</td><td>36.40</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>电子</td><td>688797</td><td>臻宝科技</td><td>待PA确认</td><td>强势放量待二段确认</td><td>520.27</td><td>499.67</td><td>473.91</td><td>566.63</td><td>618.14</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>通信设备</td><td>300502</td><td>新易盛</td><td>待PA确认</td><td>强势放量待二段确认</td><td>550.96</td><td>529.13</td><td>501.86</td><td>600.05</td><td>654.60</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>电气设备</td><td>300390</td><td>天华新能</td><td>只观察</td><td>趋势观察待突破</td><td>69.79</td><td>67.03</td><td>63.57</td><td>76.01</td><td>82.92</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>电子</td><td>300223</td><td>北京君正</td><td>待PA确认</td><td>强势放量待二段确认</td><td>238.38</td><td>228.94</td><td>217.14</td><td>259.62</td><td>283.22</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>电子</td><td>300475</td><td>香农芯创</td><td>待PA确认</td><td>强势放量待二段确认</td><td>270.66</td><td>259.94</td><td>246.54</td><td>294.78</td><td>321.58</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>玻璃</td><td>301526</td><td>国际复材</td><td>待PA确认</td><td>强势放量待二段确认</td><td>39.24</td><td>37.68</td><td>35.74</td><td>42.74</td><td>46.62</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>电子</td><td>300666</td><td>江丰电子</td><td>待PA确认</td><td>强势放量待二段确认</td><td>368.12</td><td>353.55</td><td>335.32</td><td>400.93</td><td>437.38</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>软件服务</td><td>300017</td><td>网宿科技</td><td>待PA确认</td><td>强势放量待二段确认</td><td>15.48</td><td>14.87</td><td>14.10</td><td>16.86</td><td>18.40</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>玻璃</td><td>600176</td><td>中国巨石</td><td>待PA确认</td><td>强势放量待二段确认</td><td>59.29</td><td>56.94</td><td>54.00</td><td>64.57</td><td>70.44</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>电子</td><td>301308</td><td>江波龙</td><td>待PA确认</td><td>强势放量待二段确认</td><td>626.20</td><td>601.40</td><td>570.40</td><td>682.00</td><td>744.00</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>电子</td><td>688347</td><td>华虹宏力</td><td>待PA确认</td><td>强势放量待二段确认</td><td>404.50</td><td>388.49</td><td>368.46</td><td>440.55</td><td>480.60</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>IT设备</td><td>000066</td><td>中国长城</td><td>待PA确认</td><td>趋势观察待突破</td><td>20.08</td><td>19.28</td><td>18.29</td><td>21.87</td><td>23.86</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>通信设备</td><td>002396</td><td>星网锐捷</td><td>只观察</td><td>趋势观察待突破</td><td>29.25</td><td>28.09</td><td>26.64</td><td>31.86</td><td>34.75</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>通信设备</td><td>300394</td><td>天孚通信</td><td>待PA确认</td><td>强势放量待二段确认</td><td>274.21</td><td>263.36</td><td>249.78</td><td>298.65</td><td>325.80</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>通信设备</td><td>603083</td><td>剑桥科技</td><td>待PA确认</td><td>强势放量待二段确认</td><td>204.02</td><td>195.94</td><td>185.84</td><td>222.20</td><td>242.40</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>电子</td><td>002409</td><td>雅克科技</td><td>待PA确认</td><td>强势放量待二段确认</td><td>211.09</td><td>202.73</td><td>192.28</td><td>229.90</td><td>250.80</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>汽车配件</td><td>001365</td><td>天海电子</td><td>只观察</td><td>趋势观察待突破</td><td>47.81</td><td>45.92</td><td>43.55</td><td>52.07</td><td>56.81</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>电气设备</td><td>002851</td><td>麦格米特</td><td>待PA确认</td><td>强势放量待二段确认</td><td>161.19</td><td>154.80</td><td>146.82</td><td>175.55</td><td>191.51</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>电子</td><td>300346</td><td>南大光电</td><td>待PA确认</td><td>强势放量待二段确认</td><td>80.98</td><td>77.77</td><td>73.77</td><td>88.20</td><td>96.22</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>通信设备</td><td>301307</td><td>美利信</td><td>待PA确认</td><td>强势放量待二段确认</td><td>93.77</td><td>90.05</td><td>85.41</td><td>102.12</td><td>111.41</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>通信设备</td><td>002281</td><td>光迅科技</td><td>待PA确认</td><td>强势放量待二段确认</td><td>240.87</td><td>231.34</td><td>219.41</td><td>262.34</td><td>286.19</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>电子</td><td>688766</td><td>普冉股份</td><td>待PA确认</td><td>强势放量待二段确认</td><td>769.69</td><td>739.21</td><td>701.10</td><td>838.28</td><td>914.48</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>通信设备</td><td>600105</td><td>永鼎股份</td><td>待PA确认</td><td>强势放量待二段确认</td><td>51.17</td><td>49.14</td><td>46.61</td><td>55.73</td><td>60.79</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>电子</td><td>688256</td><td>寒武纪</td><td>待PA确认</td><td>强势放量待二段确认</td><td>1550.36</td><td>1488.96</td><td>1412.21</td><td>1688.51</td><td>1842.01</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>电子</td><td>688549</td><td>中巨芯-U</td><td>待PA确认</td><td>强势放量待二段确认</td><td>35.73</td><td>34.32</td><td>32.55</td><td>38.92</td><td>42.46</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr><tr><td>互联网</td><td>002354</td><td>天娱数科</td><td>待PA确认</td><td>趋势观察待突破</td><td>8.16</td><td>7.84</td><td>7.43</td><td>8.89</td><td>9.70</td><td title="只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。" class="long-text"><span class="cell-clip">只作为第二天 PA 观察草案；必须人工确认平台、缩量和突破量能后才能执行。</span></td></tr></tbody></table></div>
 <h2>第四部分：老冯后花园系统对照</h2>
 <div class="table-wrap"><table><thead><tr><th>模块</th><th>老冯系统要点</th><th>当前页面依据</th><th>当前判断</th><th>执行含义</th></tr></thead><tbody><tr><td>大盘</td><td title="先看市场基本数据和四大指数；主跌/退潮时少做或休息。" class="long-text"><span class="cell-clip">先看市场基本数据和四大指数；主跌/退潮时少做或休息。</span></td><td title="全市场上涨占比 45.0%；全市场成交额约 2.93 万亿；本页暂未拉取四大指数K线。" class="long-text"><span class="cell-clip">全市场上涨占比 45.0%；全市场成交额约 2.93 万亿；本页暂未拉取四大指数K线。</span></td><td title="震荡环境，适合小仓试错和高抛低吸。" class="long-text"><span class="cell-clip">震荡环境，适合小仓试错和高抛低吸。</span></td><td title="不把主线个股直接等同买点；大盘未确认时只做观察或小仓试错。" class="long-text"><span class="cell-clip">不把主线个股直接等同买点；大盘未确认时只做观察或小仓试错。</span></td></tr><tr><td>板块</td><td title="板块优先于个股；大资金通常攻击板块而不是孤立个股。" class="long-text"><span class="cell-clip">板块优先于个股；大资金通常攻击板块而不是孤立个股。</span></td><td title="成交额×换手率前1%集中主线：电子、通信设备、IT设备、存储、化工原料。" class="long-text"><span class="cell-clip">成交额×换手率前1%集中主线：电子、通信设备、IT设备、存储、化工原料。</span></td><td title="有主线候选，但仍需盘中资金持续性确认。" class="long-text"><span class="cell-clip">有主线候选，但仍需盘中资金持续性确认。</span></td><td title="只在主线/强轮动内部找个股，非主线后排降级观察。" class="long-text"><span class="cell-clip">只在主线/强轮动内部找个股，非主线后排降级观察。</span></td></tr><tr><td>个股</td><td title="优先高成交、高波动、板块核心、形态清晰、可长期跟踪的自选股。" class="long-text"><span class="cell-clip">优先高成交、高波动、板块核心、形态清晰、可长期跟踪的自选股。</span></td><td title="主线个股优先取成交额×换手率前2%，不足时按同主线成交额×换手率补充。" class="long-text"><span class="cell-clip">主线个股优先取成交额×换手率前2%，不足时按同主线成交额×换手率补充。</span></td><td title="前2%且有Obsidian逻辑的股票优先级最高；未匹配逻辑或同主线补充股降级。" class="long-text"><span class="cell-clip">前2%且有Obsidian逻辑的股票优先级最高；未匹配逻辑或同主线补充股降级。</span></td><td title="观察池不是买点；等支撑、回踩、突破确认和账户允许。" class="long-text"><span class="cell-clip">观察池不是买点；等支撑、回踩、突破确认和账户允许。</span></td></tr><tr><td>交易建议</td><td title="卖点优先于买点；先算止损距离和R，1R约3%，目标2R-7R。" class="long-text"><span class="cell-clip">卖点优先于买点；先算止损距离和R，1R约3%，目标2R-7R。</span></td><td title="交易计划表给出突破计划价、回踩观察价、结构止损、止盈1、止盈2。" class="long-text"><span class="cell-clip">交易计划表给出突破计划价、回踩观察价、结构止损、止盈1、止盈2。</span></td><td title="当前为第二天PA观察草案，不是自动交易信号。" class="long-text"><span class="cell-clip">当前为第二天PA观察草案，不是自动交易信号。</span></td><td title="强势高开不追；优先等回踩不破、支撑有效、量能确认，再决定是否小仓试错。" class="long-text"><span class="cell-clip">强势高开不追；优先等回踩不破、支撑有效、量能确认，再决定是否小仓试错。</span></td></tr></tbody></table></div>
-<div class="table-wrap"><table><thead><tr><th>代码</th><th>名称</th><th>主线</th><th>概念</th><th>前2%排名</th><th>老冯定位</th><th>判断</th><th>交易建议</th><th>风险控制</th></tr></thead><tbody><tr><td>603986</td><td>兆易创新</td><td>电子</td><td>未匹配</td><td>第1名 / 前2%(111)</td><td>主线高成交候选</td><td title="资金强度与逻辑有交集，可进入重点观察。" class="long-text"><span class="cell-clip">资金强度与逻辑有交集，可进入重点观察。</span></td><td title="等回踩/支撑/突破确认；若开盘转弱或板块退潮，放弃追价。" class="long-text"><span class="cell-clip">等回踩/支撑/突破确认；若开盘转弱或板块退潮，放弃追价。</span></td><td title="先定止损距离；单股小仓试错，走弱先卖弱，不做自动下单。" class="long-text"><span class="cell-clip">先定止损距离；单股小仓试错，走弱先卖弱，不做自动下单。</span></td></tr><tr><td>000725</td><td>京东方Ａ</td><td>电子</td><td>未匹配</td><td>第2名 / 前2%(111)</td><td>主线高成交但逻辑待补</td><td title="资金强度够，但长期逻辑未匹配，需人工补逻辑。" class="long-text"><span class="cell-clip">资金强度够，但长期逻辑未匹配，需人工补逻辑。</span></td><td title="等回踩/支撑/突破确认；若开盘转弱或板块退潮，放弃追价。" class="long-text"><span class="cell-clip">等回踩/支撑/突破确认；若开盘转弱或板块退潮，放弃追价。</span></td><td title="先定止损距离；单股小仓试错，走弱先卖弱，不做自动下单。" class="long-text"><span class="cell-clip">先定止损距离；单股小仓试错，走弱先卖弱，不做自动下单。</span></td></tr><tr><td>600584</td><td>长电科技</td><td>电子</td><td>存储</td><td>第5名 / 前2%(111)</td><td>主线高成交候选</td><td title="资金强度与逻辑有交集，可进入重点观察。" class="long-text"><span class="cell-clip">资金强度与逻辑有交集，可进入重点观察。</span></td><td title="等回踩/支撑/突破确认；若开盘转弱或板块退潮，放弃追价。" class="long-text"><span class="cell-clip">等回踩/支撑/突破确认；若开盘转弱或板块退潮，放弃追价。</span></td><td title="先定止损距离；单股小仓试错，走弱先卖弱，不做自动下单。" class="long-text"><span class="cell-clip">先定止损距离；单股小仓试错，走弱先卖弱，不做自动下单。</span></td></tr><tr><td>002384</td><td>东山精密</td><td>电子</td><td>未匹配</td><td>第7名 / 前2%(111)</td><td>主线高成交候选</td><td title="资金强度与逻辑有交集，可进入重点观察。" class="long-text"><span class="cell-clip">资金强度与逻辑有交集，可进入重点观察。</span></td><td title="等回踩/支撑/突破确认；若开盘转弱或板块退潮，放弃追价。" class="long-text"><span class="cell-clip">等回踩/支撑/突破确认；若开盘转弱或板块退潮，放弃追价。</span></td><td title="先定止损距离；单股小仓试错，走弱先卖弱，不做自动下单。" class="long-text"><span class="cell-clip">先定止损距离；单股小仓试错，走弱先卖弱，不做自动下单。</span></td></tr><tr><td>688981</td><td>中芯国际</td><td>电子</td><td>未匹配</td><td>第9名 / 前2%(111)</td><td>主线高成交候选</td><td title="资金强度与逻辑有交集，可进入重点观察。" class="long-text"><span class="cell-clip">资金强度与逻辑有交集，可进入重点观察。</span></td><td title="等回踩/支撑/突破确认；若开盘转弱或板块退潮，放弃追价。" class="long-text"><span class="cell-clip">等回踩/支撑/突破确认；若开盘转弱或板块退潮，放弃追价。</span></td><td title="先定止损距离；单股小仓试错，走弱先卖弱，不做自动下单。" class="long-text"><span class="cell-clip">先定止损距离；单股小仓试错，走弱先卖弱，不做自动下单。</span></td></tr></tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th>代码</th><th>名称</th><th>主线</th><th>概念</th><th>前2%排名</th><th>老冯定位</th><th>判断</th><th>交易建议</th><th>风险控制</th></tr></thead><tbody><tr><td>603986</td><td>兆易创新</td><td>电子</td><td>未匹配</td><td>第1名 / 前2%(111)</td><td>主线高成交候选</td><td title="资金强度与逻辑有交集，可进入重点观察。" class="long-text"><span class="cell-clip">资金强度与逻辑有交集，可进入重点观察。</span></td><td title="等回踩/支撑/突破确认；若开盘转弱或板块退潮，放弃追价。" class="long-text"><span class="cell-clip">等回踩/支撑/突破确认；若开盘转弱或板块退潮，放弃追价。</span></td><td title="先定止损距离；单股小仓试错，走弱先卖弱，不做自动下单。" class="long-text"><span class="cell-clip">先定止损距离；单股小仓试错，走弱先卖弱，不做自动下单。</span></td></tr><tr><td>000725</td><td>京东方Ａ</td><td>电子</td><td>未匹配</td><td>第2名 / 前2%(111)</td><td>主线高成交但逻辑待补</td><td title="资金强度够，但长期逻辑未匹配，需人工补逻辑。" class="long-text"><span class="cell-clip">资金强度够，但长期逻辑未匹配，需人工补逻辑。</span></td><td title="等回踩/支撑/突破确认；若开盘转弱或板块退潮，放弃追价。" class="long-text"><span class="cell-clip">等回踩/支撑/突破确认；若开盘转弱或板块退潮，放弃追价。</span></td><td title="先定止损距离；单股小仓试错，走弱先卖弱，不做自动下单。" class="long-text"><span class="cell-clip">先定止损距离；单股小仓试错，走弱先卖弱，不做自动下单。</span></td></tr><tr><td>600584</td><td>长电科技</td><td>电子</td><td>存储</td><td>第5名 / 前2%(111)</td><td>主线高成交候选</td><td title="资金强度与逻辑有交集，可进入重点观察。" class="long-text"><span class="cell-clip">资金强度与逻辑有交集，可进入重点观察。</span></td><td title="等回踩/支撑/突破确认；若开盘转弱或板块退潮，放弃追价。" class="long-text"><span class="cell-clip">等回踩/支撑/突破确认；若开盘转弱或板块退潮，放弃追价。</span></td><td title="先定止损距离；单股小仓试错，走弱先卖弱，不做自动下单。" class="long-text"><span class="cell-clip">先定止损距离；单股小仓试错，走弱先卖弱，不做自动下单。</span></td></tr><tr><td>002384</td><td>东山精密</td><td>电子</td><td>未匹配</td><td>第7名 / 前2%(111)</td><td>主线高成交候选</td><td title="资金强度与逻辑有交集，可进入重点观察。" class="long-text"><span class="cell-clip">资金强度与逻辑有交集，可进入重点观察。</span></td><td title="等回踩/支撑/突破确认；若开盘转弱或板块退潮，放弃追价。" class="long-text"><span class="cell-clip">等回踩/支撑/突破确认；若开盘转弱或板块退潮，放弃追价。</span></td><td title="先定止损距离；单股小仓试错，走弱先卖弱，不做自动下单。" class="long-text"><span class="cell-clip">先定止损距离；单股小仓试错，走弱先卖弱，不做自动下单。</span></td></tr><tr><td>688981</td><td>中芯国际</td><td>电子</td><td>未匹配</td><td>第9名 / 前2%(111)</td><td>主线高成交候选</td><td title="资金强度与逻辑有交集，可进入重点观察。" class="long-text"><span class="cell-clip">资金强度与逻辑有交集，可进入重点观察。</span></td><td title="等回踩/支撑/突破确认；若开盘转弱或板块退潮，放弃追价。" class="long-text"><span class="cell-clip">等回踩/支撑/突破确认；若开盘转弱或板块退潮，放弃追价。</span></td><td title="先定止损距离；单股小仓试错，走弱先卖弱，不做自动下单。" class="long-text"><span class="cell-clip">先定止损距离；单股小仓试错，走弱先卖弱，不做自动下单。</span></td></tr></tbody></table></div></div>
     </article>
     <nav class="archive"><span>近期记录</span><a href="2026-07-08.html">2026-07-08 A股强势股筛选</a>
 <a href="2026-07-01.html">2026-07-01 A股强势股筛选</a>
