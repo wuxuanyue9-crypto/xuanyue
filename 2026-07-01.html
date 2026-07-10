@@ -268,7 +268,7 @@
     .price-breakout { border-left: 3px solid var(--accent); }
     .price-pullback { border-left: 3px solid var(--yellow); }
     .price-stop { border-left: 3px solid var(--red); }
-    .trade-logic, .trade-source {
+    .trade-logic {
       display: flex;
       align-items: flex-start;
       gap: 10px;
@@ -276,10 +276,28 @@
       border-top: 1px solid var(--line);
       font-size: 13px;
     }
-    .trade-logic > span:last-child, .trade-source > span:last-child {
+    .trade-logic > span:last-child {
       min-width: 0;
       color: var(--text);
     }
+    .trade-source {
+      margin-top: 8px;
+      border-top: 1px solid var(--line);
+      font-size: 12px;
+    }
+    .trade-source summary {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 9px 0 0;
+      cursor: pointer;
+      list-style: none;
+      color: var(--muted);
+    }
+    .trade-source summary::-webkit-details-marker { display: none; }
+    .trade-source summary span:last-child { color: var(--accent-ink); font-weight: 650; }
+    .trade-source > div { padding: 8px 0 0; line-height: 1.7; }
+    .empty-source { display: flex; justify-content: space-between; padding-top: 9px; color: var(--muted); }
     .trade-rules {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -510,6 +528,7 @@
         white-space: normal;
         word-break: break-word;
       }
+      .main-stock-table td.long-text { min-width: 0; max-width: none; }
       .main-stock-table td::before {
         content: attr(data-label);
         color: var(--muted);
