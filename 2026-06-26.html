@@ -508,6 +508,40 @@
       .trade-card { padding: 14px; }
       .trade-identity strong { font-size: 15px; }
       .trade-rules { grid-template-columns: 1fr; gap: 8px; }
+      #overview .table-wrap,
+      #meta .table-wrap { overflow: visible; }
+      #overview table,
+      #overview thead,
+      #overview tbody,
+      #overview tr,
+      #overview td,
+      #meta table,
+      #meta thead,
+      #meta tbody,
+      #meta tr,
+      #meta td { display: block; }
+      #overview table,
+      #meta table { min-width: 0; }
+      #overview thead,
+      #meta thead { display: none; }
+      #overview tr,
+      #meta tr { padding: 8px 0; border-bottom: 1px solid var(--line); }
+      #overview td,
+      #meta td {
+        display: grid;
+        grid-template-columns: 62px minmax(0, 1fr);
+        gap: 8px;
+        padding: 3px 0;
+        border: 0;
+        white-space: normal;
+        word-break: break-word;
+      }
+      #overview td::before,
+      #meta td::before {
+        content: attr(data-label);
+        color: var(--muted);
+        font-size: 10px;
+      }
       .main-stock-table,
       .main-stock-table thead,
       .main-stock-table tbody,
