@@ -521,7 +521,15 @@
       #meta tr,
       #meta td { display: block; }
       #overview table,
-      #meta table { min-width: 0; }
+      #meta table {
+        width: 100% !important;
+        min-width: 0 !important;
+        table-layout: fixed;
+      }
+      #overview tbody,
+      #overview tr,
+      #meta tbody,
+      #meta tr { width: 100%; }
       #overview thead,
       #meta thead { display: none; }
       #overview tr,
@@ -531,10 +539,13 @@
         display: grid;
         grid-template-columns: 62px minmax(0, 1fr);
         gap: 8px;
+        min-width: 0;
+        max-width: 100%;
         padding: 3px 0;
         border: 0;
-        white-space: normal;
+        white-space: normal !important;
         word-break: break-word;
+        overflow-wrap: anywhere;
       }
       #overview td::before,
       #meta td::before {
