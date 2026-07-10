@@ -10,36 +10,45 @@
   <style>
     :root {
       color-scheme: light;
-      --bg: #f4f6f7;
-      --panel: #ffffff;
-      --panel-soft: #fafbfc;
-      --text: #17212b;
-      --muted: #6b7280;
-      --line: #e5e7eb;
-      --accent: #246b8f;
-      --accent-ink: #1d5877;
-      --accent-soft: #edf5f8;
-      --green: #25866f;
-      --red: #c65353;
-      --yellow: #bd8125;
+      --bg: #f7f3e9;
+      --panel: #fffdf8;
+      --panel-soft: #faf5e8;
+      --text: #241d12;
+      --muted: #766b59;
+      --line: #e8ddc7;
+      --gold: #9a6a18;
+      --gold-bright: #c29a47;
+      --gold-ink: #704a0d;
+      --gold-soft: #f3e5c1;
+      --gold-pale: #fbf5e5;
+      --accent: var(--gold);
+      --accent-ink: var(--gold-ink);
+      --accent-soft: var(--gold-soft);
+      --green: #34735d;
+      --red: #a44338;
+      --yellow: #9a6a18;
+      --focus: #81570f;
       --radius: 16px;
-      --shadow: 0 1px 2px rgba(23,33,43,0.05), 0 8px 24px rgba(23,33,43,0.04);
-      --shadow-lg: 0 16px 40px rgba(23,33,43,0.08);
+      --shadow: 0 1px 2px rgba(80,57,18,0.05), 0 12px 30px rgba(80,57,18,0.055);
+      --shadow-lg: 0 18px 48px rgba(80,57,18,0.12);
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      background: var(--bg);
+      background:
+        radial-gradient(circle at 8% 0%, rgba(194,154,71,0.16), transparent 28rem),
+        radial-gradient(circle at 92% 18%, rgba(255,255,255,0.95), transparent 30rem),
+        linear-gradient(180deg, #fbf8f0 0%, var(--bg) 32%, #f4efe4 100%);
       color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-family: "Avenir Next", "DIN Alternate", "PingFang SC", "Microsoft YaHei", sans-serif;
       line-height: 1.6;
       font-size: 15px;
     }
     main {
-      max-width: 960px;
+      max-width: 1120px;
       margin: 0 auto;
-      padding: 20px 16px 60px;
+      padding: 24px 18px 64px;
     }
     article {
       background: transparent;
@@ -50,27 +59,93 @@
     }
     .page-head {
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       justify-content: space-between;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 16px;
+    }
+    .title-block { min-width: 0; }
+    .eyebrow {
+      margin-bottom: 5px;
+      color: var(--gold);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
     }
     .page-head h1 {
       margin: 0;
       padding: 0;
       border: 0;
-      font-size: 26px;
-      font-weight: 700;
+      font-size: clamp(24px, 3vw, 34px);
+      font-weight: 750;
+      letter-spacing: -0.025em;
     }
     .date {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 4px;
       color: var(--muted);
-      font-size: 14px;
+      font-size: 12px;
+    }
+    .date span {
+      white-space: nowrap;
+      padding: 2px 7px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--gold-ink);
+      background: rgba(255,253,248,0.7);
+      font-size: 10px;
+      font-weight: 700;
     }
     .page-nav {
       display: flex;
       flex-wrap: wrap;
-      gap: 4px;
+      gap: 6px;
+    }
+    .history-menu {
+      position: relative;
+      z-index: 6;
+    }
+    .history-menu > summary {
+      display: inline-flex;
+      min-height: 42px;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 13px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(255,253,248,0.9);
+      box-shadow: var(--shadow);
+      color: var(--text);
+      cursor: pointer;
+      list-style: none;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .history-menu > summary::-webkit-details-marker { display: none; }
+    .history-menu > summary span {
+      display: inline-grid;
+      min-width: 22px;
+      height: 22px;
+      place-items: center;
+      border-radius: 999px;
+      background: var(--gold-soft);
+      color: var(--gold-ink);
+      font-size: 11px;
+    }
+    .history-menu .page-nav {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      width: min(420px, calc(100vw - 36px));
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255,253,248,0.98);
+      box-shadow: var(--shadow-lg);
+      backdrop-filter: blur(16px);
     }
     .section-nav {
       position: sticky;
@@ -81,19 +156,23 @@
       flex-wrap: wrap;
       margin: -8px 0 18px;
       padding: 6px;
-      border: 1px solid rgba(36,107,143,0.12);
+      border: 1px solid rgba(154,106,24,0.18);
       border-radius: 12px;
-      background: rgba(255,255,255,0.88);
-      box-shadow: 0 6px 18px rgba(23,33,43,0.05);
+      background: rgba(255,253,248,0.9);
+      box-shadow: 0 6px 18px rgba(80,57,18,0.06);
       backdrop-filter: blur(12px);
     }
     .section-nav a {
-      padding: 5px 10px;
+      display: inline-flex;
+      min-height: 36px;
+      align-items: center;
+      padding: 7px 11px;
       border-radius: 8px;
       color: var(--muted);
       text-decoration: none;
       font-size: 12px;
       font-weight: 600;
+      white-space: nowrap;
     }
     .section-nav a:hover {
       background: var(--accent-soft);
@@ -103,20 +182,20 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 35px;
-      padding: 8px 16px;
-      border: 0;
+      min-height: 40px;
+      padding: 8px 13px;
+      border: 1px solid var(--line);
       border-radius: 20px;
-      background: #fff;
-      box-shadow: var(--shadow);
+      background: var(--panel);
       color: var(--muted);
       text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
+      font-size: 12px;
+      font-weight: 650;
       transition: background 0.2s, color 0.2s;
     }
     .nav-pill.active {
-      background: var(--accent);
+      border-color: var(--gold);
+      background: var(--gold);
       color: #fff;
     }
     .nav-pill:hover:not(.active) {
@@ -125,11 +204,12 @@
     }
     .card {
       background: var(--panel);
-      border: 1px solid rgba(23,33,43,0.06);
+      border: 1px solid rgba(154,106,24,0.14);
       border-radius: var(--radius);
       padding: 24px;
       margin-bottom: 16px;
       box-shadow: var(--shadow);
+      scroll-margin-top: 72px;
     }
     .card-title {
       display: flex;
@@ -147,20 +227,34 @@
       background: var(--accent);
     }
     .collapsed-card > summary {
+      min-height: 28px;
       cursor: pointer;
       list-style: none;
       margin-bottom: 0;
     }
     .collapsed-card > summary::-webkit-details-marker { display: none; }
     .collapsed-card > summary::after {
-      content: "展开";
+      content: "+";
+      display: inline-grid;
+      width: 26px;
+      height: 26px;
+      flex: none;
+      place-items: center;
+      margin-left: 2px;
+      border-radius: 999px;
+      background: var(--gold-pale);
+      color: var(--gold-ink);
+      font-size: 18px;
+      font-weight: 500;
+    }
+    .summary-meta {
       margin-left: auto;
       color: var(--muted);
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 500;
     }
     .collapsed-card[open] > summary { margin-bottom: 16px; }
-    .collapsed-card[open] > summary::after { content: "收起"; color: var(--accent); }
+    .collapsed-card[open] > summary::after { content: "-"; color: var(--gold-ink); }
     .doc-body h1, .doc-body h2, .doc-body h3, .doc-body h4 { line-height: 1.25; letter-spacing: 0; }
     .doc-body h1 + p {
       display: inline-flex;
@@ -203,15 +297,58 @@
     .card > .table-wrap:last-child {
       margin-bottom: 0;
     }
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .overview-item {
+      min-width: 0;
+      padding: 13px 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: linear-gradient(145deg, #fffefa 0%, var(--gold-pale) 100%);
+    }
+    .overview-item span {
+      display: block;
+      color: var(--gold);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+    }
+    .overview-item strong {
+      display: block;
+      margin-top: 3px;
+      font-size: 15px;
+      line-height: 1.4;
+    }
+    .overview-item p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.45;
+    }
+    .trade-disclaimer {
+      margin: -2px 0 12px;
+      padding: 8px 11px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--gold-pale);
+      color: var(--muted);
+      font-size: 11px;
+      text-align: center;
+    }
     .trade-grid {
       display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
     }
     .trade-card {
       padding: 16px;
       border: 1px solid var(--line);
       border-radius: 14px;
-      background: linear-gradient(135deg, #ffffff 0%, #fbfcfc 100%);
+      background: linear-gradient(145deg, #ffffff 0%, #fffaf0 100%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.85);
     }
     .trade-card-head {
       display: flex;
@@ -235,18 +372,25 @@
       min-width: 0;
       gap: 2px;
     }
-    .trade-identity strong { font-size: 16px; }
+    .trade-identity h3 {
+      margin: 0;
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.3;
+    }
     .trade-identity span { color: var(--muted); font-size: 12px; }
     .trade-state {
       margin-left: auto;
       padding: 4px 8px;
       border-radius: 999px;
-      background: #fff6e6;
-      color: var(--yellow);
       font-size: 11px;
       font-weight: 700;
       white-space: nowrap;
     }
+    .state-ready { background: var(--gold-soft); color: var(--gold-ink); }
+    .state-pullback { background: #e8f2ed; color: var(--green); }
+    .state-muted { background: #eeeae1; color: #655d50; }
+    .state-risk { background: #f7e5e1; color: var(--red); }
     .price-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -257,6 +401,7 @@
       display: grid;
       gap: 2px;
       padding: 9px 10px;
+      border: 1px solid transparent;
       border-radius: 10px;
       background: var(--panel-soft);
     }
@@ -265,9 +410,11 @@
       font-size: 11px;
     }
     .price-chip strong { font-size: 15px; font-variant-numeric: tabular-nums; }
-    .price-breakout { border-left: 3px solid var(--accent); }
-    .price-pullback { border-left: 3px solid var(--yellow); }
-    .price-stop { border-left: 3px solid var(--red); }
+    .price-breakout { border-color: #e5cf9c; background: #fff7e3; }
+    .price-breakout strong { color: var(--gold-ink); }
+    .price-pullback { border-color: #ddd3bf; background: #fbf8f0; }
+    .price-stop { border-color: #efd4cf; background: #fff7f5; }
+    .price-stop strong { color: var(--red); }
     .trade-logic {
       display: flex;
       align-items: flex-start;
@@ -277,8 +424,12 @@
       font-size: 13px;
     }
     .trade-logic > span:last-child {
+      display: -webkit-box;
       min-width: 0;
+      overflow: hidden;
       color: var(--text);
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
     }
     .trade-source {
       margin-top: 8px;
@@ -287,9 +438,11 @@
     }
     .trade-source summary {
       display: flex;
+      min-height: 34px;
+      align-items: center;
       justify-content: space-between;
       gap: 10px;
-      padding: 9px 0 0;
+      padding: 7px 0 0;
       cursor: pointer;
       list-style: none;
       color: var(--muted);
@@ -307,7 +460,7 @@
     .trade-rules > div {
       padding: 10px;
       border-radius: 10px;
-      background: #f8fafb;
+      background: rgba(250,245,232,0.7);
     }
     .trade-rules p {
       margin: 4px 0 0;
@@ -323,15 +476,16 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
     }
+    .sector-grid-primary { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .sector-card {
       display: grid;
-      grid-template-columns: auto minmax(0, 1fr) auto;
+      grid-template-columns: auto minmax(0, 1fr);
       gap: 10px;
       align-items: start;
       padding: 14px;
       border: 1px solid var(--line);
       border-radius: 12px;
-      background: var(--panel-soft);
+      background: linear-gradient(150deg, #fffefa 0%, var(--gold-pale) 100%);
     }
     .sector-rank {
       color: var(--accent);
@@ -343,9 +497,32 @@
     .sector-main strong { display: block; font-size: 14px; }
     .sector-main span { color: var(--muted); font-size: 11px; }
     .sector-main p { margin: 7px 0 0; font-size: 12px; white-space: normal; }
-    .sector-metric { display: grid; gap: 2px; text-align: right; }
+    .sector-metric {
+      display: inline-grid;
+      grid-column: 2;
+      grid-template-columns: auto auto;
+      gap: 6px;
+      align-items: baseline;
+      margin-right: 10px;
+    }
     .sector-metric span { color: var(--muted); font-size: 10px; }
     .sector-metric strong { font-size: 12px; font-variant-numeric: tabular-nums; }
+    .sector-more { margin-top: 10px; }
+    .sector-more > summary {
+      display: flex;
+      min-height: 40px;
+      align-items: center;
+      justify-content: center;
+      border: 1px dashed #d9c79f;
+      border-radius: 11px;
+      color: var(--gold-ink);
+      cursor: pointer;
+      list-style: none;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .sector-more > summary::-webkit-details-marker { display: none; }
+    .sector-more[open] > summary { margin-bottom: 10px; }
     table {
       border-collapse: collapse;
       width: 100%;
@@ -450,15 +627,15 @@
     }
     tr:last-child td { border-bottom: 0; }
     tr:nth-child(even) td { background: transparent; }
-    tr:hover td { background: #f9fafb; }
+    tr:hover td { background: var(--gold-pale); }
     blockquote {
-      border: 1px solid #c7d2fe;
+      border: 1px solid #e0c98f;
       border-radius: 12px;
-      background: linear-gradient(135deg, #eef2ff 0%, #f0fdf4 100%);
+      background: linear-gradient(135deg, #fff8e7 0%, #fffdf8 100%);
       padding: 20px;
       color: var(--text);
     }
-    code { background: #eef2f6; padding: 1px 5px; border-radius: 4px; }
+    code { background: var(--gold-pale); padding: 1px 5px; border-radius: 4px; }
     .archive {
       display: flex;
       flex-wrap: wrap;
@@ -473,7 +650,7 @@
       border: 0;
       border-radius: 20px;
       padding: 6px 12px;
-      background: #fff;
+      background: var(--panel);
       box-shadow: var(--shadow);
       transition: border-color 140ms ease, color 140ms ease;
     }
@@ -481,15 +658,30 @@
     .archive-list { padding-left: 0; list-style: none; }
     .archive-list li { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); }
     .archive-list span { color: var(--muted); width: 42px; flex: none; }
-    a:focus-visible {
-      outline: 3px solid var(--gold-soft);
+    a:focus-visible,
+    summary:focus-visible {
+      outline: 3px solid var(--focus);
       outline-offset: 2px;
     }
+    @media (max-width: 860px) {
+      .overview-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .trade-grid { grid-template-columns: 1fr; }
+      .sector-grid,
+      .sector-grid-primary { grid-template-columns: 1fr; }
+    }
     @media (max-width: 640px) {
-      main { padding: 12px 10px 40px; }
-      .card { padding: 16px; }
-      .page-head h1 { font-size: 20px; }
-      .nav-pill { padding: 6px 12px; font-size: 13px; min-height: 31px; }
+      main { padding: 14px 10px 40px; }
+      .page-head { align-items: center; margin-bottom: 16px; }
+      .title-block { flex: 1 1 230px; }
+      .page-head h1 { font-size: 21px; }
+      .eyebrow { font-size: 9px; }
+      .date { font-size: 11px; }
+      .history-menu { margin-left: auto; }
+      .history-menu > summary { min-height: 40px; padding: 8px 10px; }
+      .history-menu .page-nav { width: calc(100vw - 20px); }
+      .nav-pill { min-height: 40px; padding: 7px 11px; font-size: 12px; }
+      .card { padding: 15px; margin-bottom: 12px; }
+      .card-title { margin-bottom: 13px; font-size: 16px; }
       .section-nav {
         top: 4px;
         margin-top: -4px;
@@ -498,16 +690,23 @@
         scrollbar-width: none;
       }
       .section-nav::-webkit-scrollbar { display: none; }
+      .section-nav a { min-height: 40px; padding: 8px; font-size: 11px; }
+      .overview-grid { gap: 8px; }
+      .overview-item { padding: 11px; }
+      .overview-item strong { font-size: 14px; }
       .doc-body h1 + p { font-size: 13px; }
       .doc-body h3 { font-size: 16px; }
       table { font-size: 12px; min-width: 640px; }
       .main-stock-table { min-width: 0; font-size: 11px; }
       th, td { padding: 6px 4px; }
       ul { padding: 10px 10px 10px 24px; }
-      .sector-grid { grid-template-columns: 1fr; }
       .trade-card { padding: 14px; }
-      .trade-identity strong { font-size: 15px; }
-      .trade-rules { grid-template-columns: 1fr; gap: 8px; }
+      .trade-identity h3 { font-size: 15px; }
+      .trade-rules { gap: 8px; }
+      .price-chip { padding: 8px; }
+      .price-chip strong { font-size: 14px; }
+      .trade-source summary { min-height: 40px; }
+      .summary-meta { font-size: 10px; }
       #overview .table-wrap,
       #meta .table-wrap { overflow: visible; }
       #overview table,
@@ -582,12 +781,16 @@
       }
       .main-stock-table td:nth-child(7) { font-weight: 700; }
     }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      * { transition: none !important; }
+    }
   </style>
 </head>
 <body>
   <main>
     <article>
-      <header class="page-head"><div><h1>2026-06-30 A股强势股筛选</h1><div class="date">每日收盘后自动生成，仅用于观察和复盘</div></div><nav class="page-nav"><a class="nav-pill" href="2026-07-09.html">2026-07-09 A股强势股筛选</a><a class="nav-pill" href="2026-07-08.html">2026-07-08 A股强势股筛选</a><a class="nav-pill" href="2026-07-01.html">2026-07-01 A股强势股筛选</a><a class="nav-pill active" href="2026-06-30.html">2026-06-30 A股强势股筛选</a><a class="nav-pill" href="2026-06-30.html">2026-06-30 A股强势股筛选（新浪临时口径）</a><a class="nav-pill" href="2026-06-29.html">2026-06-29 A股强势股筛选</a></nav></header><nav class="section-nav" aria-label="页面导航"><a href="#overview">结论</a><a href="#tomorrow">明日作战表</a><a href="#sectors">主线板块</a><a href="#stocks">个股观察池</a><a href="#appendix">附录</a></nav><div class="doc-body"><section class="card meta-card"><p>数据日期：2026-06-30（最近一个有行情数据的交易日） 生成时间：2026-07-08 04:42</p></section>
+      <header class="page-head"><div class="title-block"><div class="eyebrow">A-SHARE DAILY BRIEF</div><h1>A股强势股筛选</h1><div class="date"><span>2026-06-30</span> 每日收盘后生成，仅用于观察和复盘</div></div><details class="history-menu"><summary>历史记录 <span>6</span></summary><nav class="page-nav" aria-label="历史记录"><a class="nav-pill" href="2026-07-09.html">2026-07-09 A股强势股筛选</a><a class="nav-pill" href="2026-07-08.html">2026-07-08 A股强势股筛选</a><a class="nav-pill" href="2026-07-01.html">2026-07-01 A股强势股筛选</a><a class="nav-pill active" href="2026-06-30.html">2026-06-30 A股强势股筛选</a><a class="nav-pill" href="2026-06-30.html">2026-06-30 A股强势股筛选（新浪临时口径）</a><a class="nav-pill" href="2026-06-29.html">2026-06-29 A股强势股筛选</a></nav></details></header><nav class="section-nav" aria-label="页面导航"><a href="#overview">结论</a><a href="#tomorrow">明日作战表</a><a href="#sectors">主线板块</a><a href="#stocks">个股观察池</a><a href="#appendix">附录</a></nav><div class="doc-body"><section class="card meta-card"><p>数据日期：2026-06-30（最近一个有行情数据的交易日） 生成时间：2026-07-08 04:42</p></section>
 <section class="card"><div class="card-title">结论</div><ul><li>严格通过板块规则：1 个</li>
 <li>严格通过个股规则：5 只</li>
 <li>这里只是观察池，不是买入建议；买入还需要后续观察窗口内出现 15 分钟 H2 触发和风控确认。</li></ul></section>
