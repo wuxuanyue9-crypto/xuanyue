@@ -1,0 +1,860 @@
+version: "0.3"
+mode: research_only
+calibration_scope: historical_amount_normalization_and_ice_core_repair_spec
+
+data:
+  market: cn_a_shares_sh_sz
+  bar_frequency: 1d
+  intraday_frequency_for_ice_core_repair: 1m_preferred_5m_minimum
+  signal_time: after_daily_close
+  execution_time: next_trading_day
+  price_indicators_use_adjusted_data: true
+  turnover_uses_unadjusted_amount: true
+  amount_unit: yuan
+  indices:
+    - 000001.SH
+    - 399001.SZ
+    - 399006.SZ
+    - 000688.SH
+
+  amount_normalization:
+    denominator_universe: sh_sz_a_shares
+    runtime_reference: rolling_median_completed_days
+    runtime_window_days: 5
+    intraday_use_current_partial_amount: false
+    insufficient_history_action: no_signal
+    calibration_status: PROVISIONAL
+    source_amount_unit: yuan
+
+  etf:
+    daily_source: fund_daily
+    adjustment_source: fund_adj
+    raw_amount_unit: thousand_yuan
+    amount_to_yuan_multiplier: 1000
+    adjusted_price_formula: raw_price_d_times_factor_d_div_factor_asof
+    amount_and_volume_are_never_adjusted: true
+    quarantine_if_factor_unavailable_on_corporate_action_day: true
+
+  intraday_snapshots:
+    required_times:
+      - "09:35"
+      - "10:30"
+      - "14:30"
+      - "14:50"
+    observed_at_required: true
+    same_timestamp_rank_comparison_only: true
+
+universe:
+  breadth_include_st: true
+  breadth_exclude_suspended: true
+  trade_exclude_st: true
+  trade_exclude_delisting: true
+  trade_exclude_suspended: true
+  trade_min_listed_days: 60
+  require_point_in_time_membership: true
+
+  etf:
+    enabled_in_research: true
+    include_domestic_equity_sector_theme_only: true
+    exclude_types:
+      - money_market
+      - bond
+      - commodity
+      - cross_border
+      - leveraged
+      - inverse
+    min_listed_days: 60
+    require_point_in_time_index_sector_mapping: true
+
+market:
+  main_down:
+    index_ma_days: 20
+    index_ma_slope_lookback_days: 5
+    min_bear_indices: 3
+    max_adv_ratio_3d: 0.40
+    enter_hits: 2
+    enter_window_days: 3
+    exit_max_bear_indices: 1
+    exit_min_adv_ratio: 0.45
+    exit_consecutive_days: 2
+
+  uptrend:
+    min_bull_indices: 3
+    min_adv_ratio_5d: 0.50
+
+  ice:
+    max_adv_ratio: 0.10
+    max_median_return: -0.02
+    limit_down_count_floor: 40
+    limit_down_universe_ratio: 0.008
+    limit_up_quantile_window_days: 60
+    limit_up_quantile: 0.10
+    min_condition_count: 2
+    extreme_min_condition_count: 3
+
+  ice_repair:
+    lookback_days: 2
+    min_adv_ratio: 0.30
+    min_adv_ratio_improvement: 0.20
+    min_median_return: 0.0
+    max_limit_down_ratio_to_ice_day: 0.50
+    min_positive_indices: 2
+
+  euphoria:
+    min_adv_ratio: 0.80
+    min_median_return: 0.02
+    limit_up_quantile_window_days: 60
+    limit_up_quantile: 0.90
+    min_condition_count: 2
+
+  exposure_caps:
+    MAIN_DOWN: 0.10
+    MAIN_DOWN_ICE: 0.10
+    ICE_CORE_REPAIR_MODULE: 0.20
+    ICE_REPAIR: 0.30
+    RANGE: 0.40
+    UP_MAINLINE: 0.60
+    EUPHORIA: 0.50
+
+  risk_multipliers:
+    MAIN_DOWN: 0.0
+    MAIN_DOWN_ICE: 0.0
+    ICE_CORE_REPAIR_MODULE: 0.50
+    ICE_REPAIR: 1.0
+    RANGE: 1.0
+    UP_MAINLINE: 2.0
+    EUPHORIA: 0.0
+
+sector:
+  classification_must_match_level: true
+
+  capacity:
+    formula: calibrated_share_times_market_amount_reference
+
+    hard_floor:
+      source_threshold_yuan: 10000000000
+      source_statement_date: "2023-08-05"
+      source_market_date: "2023-08-04"
+      source_market_amount_yuan: 1049160000000
+      calibrated_market_share: 0.009531435
+
+    big_floor:
+      source_threshold_yuan: 20000000000
+      source_statement_date: "2024-12-26"
+      source_market_date: "2024-12-26"
+      source_market_amount_yuan: 1272460000000
+      calibrated_market_share: 0.015717586
+
+    # 300亿元仅为工程A档；A档和老冯“大板块”是两个独立标签。
+    engineering_a_grade:
+      reference_yuan: 30000000000
+      formula: max(reference_yuan, dynamic_hard_floor_yuan)
+      does_not_imply_big_sector: true
+
+  day_hit:
+    max_amount_rank_pct: 0.20
+    max_return_rank_pct: 0.20
+    min_adv_ratio: 0.60
+    active_stock_min_return: 0.03
+    active_stock_min_amount_mode: LOOSE
+    min_active_stock_count: 3
+    min_top100_amount_count: 3
+    min_top100_gain_count: 3
+
+  state_machine:
+    entry_hits: 2
+    entry_window_days: 3
+    weaken_exit_consecutive_days: 2
+    maintain_max_amount_rank_pct: 0.40
+    maintain_max_return_rank_pct: 0.40
+    maintain_min_adv_ratio: 0.45
+    require_logic_for_mainline: true
+
+  ice_leader_candidate:
+    required_prior_sector_state: CANDIDATE
+    require_prior_day_hit: true
+    require_linkage_ok: true
+    require_dynamic_big_floor: true
+    require_logic_confirmed: true
+    logic_must_preexist_decision: true
+    max_sectors: 1
+    tie_break_order:
+      - return_rank
+      - amount_rank
+
+  selection_limits:
+    max_mainline_sectors: 2
+    max_rotation_sectors: 2
+    max_stocks_per_sector_watchlist: 15
+    max_total_watchlist_stocks: 50
+
+stock:
+  liquidity:
+    formula: selected_market_share_times_market_amount_reference
+    calibration_status: PROVISIONAL
+
+    anchors:
+      early_8e8:
+        source_threshold_yuan: 800000000
+        source_date: "2023-05-18"
+        source_market_amount_yuan: 879930000000
+        calibrated_market_share: 0.000909163
+      later_6e8:
+        source_threshold_yuan: 600000000
+        source_date: "2024-09-26"
+        source_market_amount_yuan: 1162435000000
+        calibrated_market_share: 0.000516158
+
+    modes:
+      LOOSE:
+        market_share: 0.000516158
+        max_amount_rank_pct: 0.085
+        use: watchlist_only
+      STANDARD:
+        market_share: 0.000685034
+        max_amount_rank_pct: 0.0625
+        use: normal_trade_candidate
+      STRICT:
+        market_share: 0.000909163
+        max_amount_rank_pct: 0.0425
+        use: range_or_ice_repair
+
+    mode_selection:
+      RANGE: STRICT
+      ICE_REPAIR: STRICT
+      UP_MAINLINE: STANDARD
+      WATCHLIST: LOOSE
+
+    median_amount_20_min_fraction_of_floor: 0.50
+    median_amount_is_score_not_hard_filter: true
+
+  volatility:
+    min_median_amplitude_20: 0.05
+    min_atr_pct: 0.03
+    max_atr_pct: 0.10
+
+  tradability:
+    min_close_to_ma20_ratio: 1.0
+    support_definition: highest_confirmed_pivot_low_below_close_30d
+    max_distance_to_support: 0.06
+
+  recognition:
+    min_score: 3
+    amount_rank_within_sector_top_n: 3
+    amount_rank_within_sector_pct: 0.20
+    return_rank_within_sector_top_n: 3
+    return_rank_within_sector_pct: 0.20
+    relative_strength_lookback_days: 10
+    relative_strength_min_hit_days: 2
+    relative_strength_min_excess_return: 0.02
+    relative_strength_min_amount_mode: LOOSE
+    min_close_to_high20_ratio: 0.92
+    require_liquidity_point: true
+    require_strength_point: true
+
+  max_trade_candidates_per_sector: 3
+
+risk:
+  # 工程默认0.5%；老冯极简回调原始口径为1%。
+  base_account_risk_pct: 0.005
+  source_account_risk_cap_pct: 0.01
+  max_position_value_pct: 0.20
+  max_sector_position_value_pct: 0.30
+  max_sector_initial_risk_pct: 0.015
+  max_positions_per_sector: 3
+
+  volatility_multipliers:
+    - max_atr_pct: 0.05
+      multiplier: 1.0
+    - max_atr_pct: 0.07
+      multiplier: 0.75
+    - max_atr_pct: 1.0
+      multiplier: 0.50
+
+  account_negative_feedback:
+    max_rolling_5d_return: -0.03
+    max_drawdown_from_20d_high: -0.05
+    consecutive_rule_stop_count: 3
+    risk_reduction_multiplier: 0.50
+
+simple_pullback:
+  enabled: true
+  required_sector_states:
+    - MAINLINE
+
+  state_machine:
+    - IDLE
+    - SUPPORT_ARMED
+    - TOUCH_1
+    - TOUCH_2_OR_3
+    - REVERSAL_CONFIRMED
+    - ORDER_PENDING
+    - POSITION_OPEN
+    - EXIT_PENDING
+    - CLOSED
+
+  uptrend:
+    fast_ma_days: 20
+    slow_ma_days: 60
+    fast_ma_slope_lookback_days: 5
+    min_return_20d: 0.0
+
+  support:
+    pivot_left_bars: 2
+    pivot_right_bars: 2
+    lookback_days: 30
+    touch_atr_fraction: 0.50
+    min_touch_gap_days: 3
+    min_departure_between_touches_atr: 1.0
+    max_last_touch_age_days: 3
+    max_close_break_atr_fraction: 0.50
+    allowed_bottom_counts:
+      - 2
+      - 3
+    freeze_support_at_first_touch: true
+    pattern_low_range: first_touch_through_signal
+
+  reversal:
+    inside_doji_max_body_to_range: 0.25
+
+  entry:
+    trigger_ticks_above_signal_high: 1
+    max_gap_above_trigger_r: 0.50
+    gap_r_uses_planned_r0: true
+    planned_r0_formula: buy_trigger_minus_frozen_stop
+    require_min_risk_at_buy_trigger: true
+    buy_limit_formula: min_chase_room_and_max_risk_limits
+    require_confirmed_resistance: true
+    order_valid_days: 1
+
+  stop:
+    atr_buffer: 0.10
+    min_risk_pct: 0.02
+    max_risk_pct: 0.06
+    anchor: frozen_pattern_low
+
+  take_profit:
+    target_r: 2.0
+    require_target_below_confirmed_swing_high: true
+    exit_fraction: 1.0
+
+  time_exit:
+    min_return_3d: 0.03
+    max_hold_days: 5
+
+yang_yin_yang:
+  enabled: true
+  required_sector_state: MAINLINE
+  require_recognition_pass: true
+  require_liquidity_ok: true
+  require_prelaunch_turnover_ok: true
+  reject_market_state: MAIN_DOWN
+
+  state_machine:
+    - IDLE
+    - FIRST_YANG_FOUND
+    - MIDDLE_1
+    - MIDDLE_2
+    - MIDDLE_3
+    - ORDER_PENDING
+    - POSITION_OPEN
+    - EXIT_PENDING
+    - CLOSED
+    - MIDDLE_INVALID
+    - SECOND_YANG_COMPLETED_BEFORE_ENTRY
+    - EXPIRED_AFTER_MIDDLE_3
+
+  first_yang:
+    min_return_fraction_of_actual_limit_pct: 0.70
+    min_body_fraction_of_actual_limit_pct: 0.50
+    min_close_location: 0.70
+    first_day_min_amount_mode: STANDARD
+    prelaunch_lookback_days: 5
+    prelaunch_min_hit_days: 2
+    prelaunch_floor_fraction: 0.50
+
+  middle:
+    min_days: 1
+    max_days: 3
+    min_close_to_first_body_midpoint: 1.0
+    max_total_range_to_first_body: 0.60
+    max_single_body_to_first_body: 0.40
+    max_low_below_first_low: 0.005
+    require_current_high_above_previous_high: true
+    low_alignment_score_max_distance: 0.02
+    low_alignment_is_score_not_hard_filter: true
+    second_yang_completed_min_fraction_of_first_return: 0.80
+
+  live_entry:
+    execution_variant: minute_tail
+    decision_time: "14:50"
+    order_end_time: "14:55"
+    signal_rule: first_valid_middle_day
+    near_upper_edge_atr: 0.10
+    order_price_source: ask1
+    require_risk_band_at_ask1: true
+    allow_reprice_above_frozen_entry_limit: false
+    freeze_all_plan_fields_at_decision: true
+
+  daily_backtest_entry:
+    execution_variant: daily_next_open_proxy
+    signal_rule: first_valid_middle_day_at_close
+    min_next_open_gap: -0.03
+    max_next_open_gap: 0.02
+    results_must_be_separate_from_minute_tail: true
+
+  stop:
+    atr_buffer: 0.10
+    min_risk_pct: 0.02
+    max_risk_pct: 0.06
+    anchor: min_middle_low_known_at_decision
+    never_move_down_after_entry: true
+
+  take_profit:
+    target_mode: min_repeat_first_yang_return_and_confirmed_resistance
+    sensitivity_modes:
+      - repeat_first_yang_return
+      - repeat_first_yang_body
+      - repeat_first_leg_range
+    min_target_r: 2.0
+    exit_fraction: 1.0
+
+  invalidation:
+    separate_pre_entry_and_post_entry: true
+    pre_entry_max_middle_days: 3
+    post_entry_fourth_middle_day_exit: true
+    latch_entry_day_failure_until_sellable: true
+
+  time_exit:
+    expected_deadline_sellable_days: 2
+    min_progress_r: 0.50
+    min_return_3d: 0.03
+    max_hold_days: 5
+
+ice_core_repair:
+  # 工程组合名称；不是老冯公布过的固定策略名。
+  enabled: false
+  paper_only: true
+  calibration_status: UNCALIBRATED
+
+  eligibility:
+    required_prior_emotion_state: ICE
+    reject_prior_trend_state: MAIN_DOWN
+    require_account_negative_feedback_false: true
+    required_prior_sector_state: CANDIDATE
+    require_ice_leader_candidate: true
+    require_stock_frozen_before_buy_day: true
+    liquidity_mode: STRICT
+    require_recognition_pass: true
+    max_recognition_rank_in_sector: 3
+    require_volatility_ok_asof_prior_close: true
+    require_prior_close_above_ma20: true
+    require_prior_ma20_at_or_above_ma60: true
+    inherit_daily_support_distance_filter: false
+
+  state_machine:
+    - IDLE
+    - ICE_ARMED
+    - WATCHLIST_FROZEN
+    - WAIT_LIVE_REPAIR
+    - LIVE_REPAIR_CONFIRMED
+    - SETUP_CONFIRMED
+    - ORDER_PENDING
+    - POSITION_OPEN
+    - EXIT_PENDING
+    - CLOSED
+    - INVALIDATED
+    - EXPIRED
+    - NO_FILL
+    - DATA_INSUFFICIENT
+    - LOOKAHEAD_VIOLATION
+
+  frozen_watchlist:
+    asof: prior_close
+    max_sectors: 1
+    max_stocks_per_sector: 3
+    stock_sort_order:
+      - recognition_score
+      - sector_amount_rank
+      - relative_strength_20d
+    buy_day_additions_forbidden: true
+
+  live_market_repair:
+    # 以下均为待回测工程默认。
+    min_adv_ratio: 0.20
+    min_adv_ratio_improvement: 0.10
+    max_limit_down_ratio_to_ice_day: 0.80
+    min_indices_above_open: 2
+    confirmation_snapshots: 2
+    snapshot_interval_minutes: 5
+
+  live_sector_repair:
+    max_return_rank_pct: 0.20
+    max_partial_amount_rank_pct: 0.20
+    min_adv_ratio: 0.50
+    min_adv_ratio_excess_over_market: 0.20
+    min_frozen_cores_above_vwap: 2
+    confirmation_snapshots: 2
+    partial_amount_same_timestamp_only: true
+
+  setup_variants:
+    results_must_be_reported_separately: true
+
+    RECLAIM_15M:
+      enabled_in_research: true
+      decision_window_start: "10:30"
+      decision_window_end: "14:30"
+      require_two_confirmed_15m_lows: true
+      second_low_min_first_low_atr_offset: -0.10
+      reclaim_level: max_session_vwap_and_confirmed_15m_pivot_high
+      require_completed_5m_close_above_reclaim: true
+      max_chase_above_reclaim_atr: 0.10
+
+    TAIL_HOLD:
+      enabled_in_research: true
+      decision_time: "14:50"
+      order_end_time: "14:55"
+      completed_5m_closes_above_vwap: 3
+      no_new_low_after: "13:30"
+      min_close_location_in_day_range: 0.75
+      min_price_from_session_high_atr: -0.25
+      max_price_above_vwap_atr: 0.50
+      require_confirmed_15m_structure_low: true
+
+    PANIC_BUY:
+      enabled: false
+      reason: no_uniform_source_threshold_and_high_falling_knife_risk
+
+  entry:
+    trigger_ticks_above_reclaim: 1
+    stop_anchor: latest_confirmed_intraday_structure_low
+    stop_atr_buffer: 0.10
+    min_risk_pct: 0.02
+    max_risk_pct: 0.06
+    target_r: 2.0
+    require_target_below_confirmed_resistance: true
+    max_chase_atr: 0.10
+    order_valid_minutes: 5
+    max_attempts_per_stock_per_day: 1
+    cancel_all_new_orders_after: "14:55"
+    freeze_all_plan_fields_before_order: true
+
+  risk:
+    module_market_multiplier: 0.50
+    max_position_value_pct: 0.10
+    max_module_position_value_pct: 0.20
+    max_positions_same_sector: 2
+    max_sector_initial_risk_pct: 0.005
+    max_new_value_if_recycling_profit: released_value_same_day
+    max_new_value_pct_if_preexisting_light_exposure: 0.10
+    etf_and_stocks_share_theme_risk_cluster: true
+
+  expectation:
+    expected_event: ice_repair_sector_strengthening_core_fast_feedback
+    expected_deadline_sellable_days: 1
+    min_progress_r: 0.50
+    must_hold_price: frozen_reclaim_level
+    hard_stop: frozen_structure_stop
+    required_sector_states:
+      - CANDIDATE
+      - MAINLINE
+    relative_benchmark: frozen_sector_id
+
+  exit:
+    hard_stop_event_latches_on_entry_day: true
+    take_profit_at_frozen_target_fraction: 1.0
+    strong_sell_window_is_advisory_only: true
+    strong_sell_window_features:
+      - sector_euphoria
+      - stock_large_yang
+      - limit_up
+      - intraday_acceleration
+    repair_thesis_fail_min_condition_count: 2
+    repair_thesis_fail_conditions:
+      - live_market_repair_lost
+      - sector_maintenance_lost
+      - close_below_frozen_reclaim
+    fast_time_fail_sellable_days: 1
+    fast_time_fail_min_progress_r: 0.50
+    three_day_min_return: 0.03
+    max_hold_days: 5
+    fixed_8_10_14_pct_profit_rules_forbidden: true
+
+  data_policy:
+    minute_data_required_for_fills: true
+    daily_data_can_only_arm_candidate: true
+    daily_fill_result_without_minutes: UNVERIFIABLE_WITHOUT_MINUTE_DATA
+    prior_close_freeze_required: true
+    partial_amount_rank_same_timestamp_only: true
+    confirmed_intraday_pivots_only: true
+    decision_time_data_only: true
+
+  reason_codes:
+    - REJECT_NO_PRIOR_ICE
+    - REJECT_MAIN_DOWN
+    - REJECT_SECTOR_NOT_PRELOCKED
+    - REJECT_STOCK_NOT_PRELOCKED
+    - WAIT_LIVE_REPAIR
+    - REJECT_LIVE_SECTOR
+    - SETUP_NOT_CONFIRMED
+    - LOOKAHEAD_VIOLATION
+    - DATA_INSUFFICIENT
+    - NO_FILL
+
+etf:
+  enabled_in_research: true
+  enabled_for_live_orders: false
+  calibration_status: UNCALIBRATED
+
+  instrument_scope:
+    include_domestic_equity_sector_theme_only: true
+    min_listed_days: 60
+    excluded_types:
+      - money_market
+      - bond
+      - commodity
+      - cross_border
+      - leveraged
+      - inverse
+
+  adjustment:
+    daily_source: fund_daily
+    factor_source: fund_adj
+    adjusted_price_formula: raw_price_d_times_factor_d_div_factor_asof
+    amount_and_volume_are_never_adjusted: true
+    continuity_assertion: adjusted_previous_close_approximately_equals_current_pre_close
+    quarantine_if_factor_unavailable_on_action_day: true
+    quarantine_reason_code: CORPORATE_ACTION_QUARANTINE
+    continuity_fail_reason_code: ADJUSTMENT_CONTINUITY_FAIL
+
+  liquidity:
+    comparison_universe: domestic_equity_sector_theme_etfs
+    median_amount_20_max_rank_pct: 0.20
+    completed_amount_max_rank_pct: 0.20
+    intraday_partial_amount_same_timestamp_only: true
+    stock_6e8_8e8_thresholds_do_not_apply: true
+
+  same_index_selection:
+    sort_order:
+      - median_amount_20
+      - fund_size
+      - tracking_error_inverse
+
+  sector_mapping:
+    formula: index_code_to_sector_id_with_valid_from_valid_to
+    point_in_time_required: true
+    etf_amount_does_not_count_toward_stock_sector_capacity: true
+    etf_does_not_count_as_active_stock: true
+
+  strategy_router:
+    allowed_strategies:
+      - ICE_CORE_REPAIR_ETF
+    simple_pullback_enabled: false
+    yang_yin_yang_enabled: false
+    require_tracked_sector_ice_leader_candidate: true
+
+  premium_discount:
+    require_live_iopv_for_automatic_rule: true
+    missing_live_iopv_action: record_unknown_and_no_live_order
+    next_day_nav_backfill_forbidden: true
+
+  risk_cluster:
+    merge_with_tracked_sector_stocks: true
+    share_ice_core_repair_module_cap: true
+
+ice_core_repair_etf:
+  enabled: false
+  paper_only: true
+  inherits_market_sector_setup_exit_from: ice_core_repair
+  replaces_stock_recognition_with:
+    - etf_universe_pass
+    - etf_liquidity_pass
+    - tracked_sector_ice_leader_candidate
+    - same_index_best_vehicle
+  require_adjustment_continuity_pass: true
+  require_live_iopv_for_live_order: true
+  share_theme_risk_cluster_with_stocks: true
+  missing_required_data_result: DATA_INSUFFICIENT
+
+not_expected:
+  expected_deadline_sellable_days: 2
+  min_progress_r: 0.50
+  time_exit_days: 3
+  min_return_at_time_exit: 0.03
+  held_sellable_days_definition: completed_sessions_from_sellable_from
+  entry_day_held_sellable_days: 0
+  max_high_since_entry_starts_at_fill_time: true
+  hard_stop_is_separate_intraday_event: true
+  close_below_hard_stop_is_not_hard_not_expected: true
+
+  relative_fail:
+    sector_min_return_one_day: 0.01
+    stock_max_return_one_day: -0.02
+    max_two_day_excess_return: -0.03
+
+  exit_event_model:
+    primary_order: observed_at
+    first_valid_event_latches: true
+    later_events_cannot_overwrite: true
+    close_based_events_execute_no_earlier_than_next_tradable_time: true
+    required_fields:
+      - type
+      - observed_at
+      - price_level
+      - basis
+      - sellable_at
+      - executable_at
+      - status
+
+  simultaneous_event_priority:
+    - HARD_STOP
+    - LOGIC_INVALIDATED
+    - TAKE_PROFIT
+    - RELATIVE_FAIL
+    - TIME_FAIL
+    - MAX_HOLD_EXIT
+
+strategy_router:
+  STOCK:
+    allowed_strategies:
+      - SIMPLE_PULLBACK
+      - YANG_YIN_YANG
+      - ICE_CORE_REPAIR
+  ETF:
+    allowed_strategies:
+      - ICE_CORE_REPAIR_ETF
+  unknown_instrument_action: REJECT
+
+execution:
+  t_plus_one: true
+  round_lot_shares: 100
+  slippage_bps: 10
+  reject_one_price_limit_up_buy: true
+  carry_unfilled_limit_down_sell: true
+  daily_bar_both_stop_and_target_assumption: stop_first
+  point_in_time_fees_and_taxes: true
+  point_in_time_price_limits: true
+  point_in_time_sector_membership: true
+  point_in_time_core_flags: true
+  point_in_time_intraday_market_snapshots: true
+  point_in_time_etf_adjustment_factors: true
+  no_buy_day_watchlist_backfill: true
+  no_full_day_amount_for_intraday_rank: true
+
+  instrument_overrides:
+    STOCK:
+      lot_size_shares: 100
+      adjustment_source: stock_adj_factor_or_pro_bar_adjusted_price
+    ETF:
+      lot_size_shares: 100
+      adjustment_source: fund_adj
+      corporate_action_quarantine: true
+
+calibration_snapshot:
+  as_of: "2026-07-10"
+  universe: sh_sz_a_shares
+  market_amount_yuan:
+    "2026-07-08": 2563357348010.34
+    "2026-07-09": 2913539561920.06
+    "2026-07-10": 3388361992985.56
+  temporary_3d_median_yuan: 2913539561920.06
+  latest_day_thresholds_yuan:
+    sector_hard: 32295950000
+    sector_big: 53256870000
+    stock_loose: 1748930000
+    stock_standard: 2321140000
+    stock_strict: 3080570000
+  latest_day_stock_cross_section:
+    market_stock_count: 5194
+    trade_rank_sample_count_after_name_risk_filter: 4982
+    loose_count: 415
+    standard_count: 303
+    strict_count: 210
+
+case_regression_snapshot:
+  replay_id: laofeng_20260708_to_20260709
+  prior_close_asof: "2026-07-07T15:00:00+08:00"
+  market_amount_ref_5d_yuan: 3182452000000
+  dynamic_thresholds_yuan:
+    sector_hard: 30333330000
+    sector_big: 50020460000
+    stock_loose: 1642648000
+    stock_standard: 2180088000
+    stock_strict: 2893368000
+  expected_results:
+    688120.SH:
+      instrument_route: STOCK
+      candidate_audit: REQUIRES_POINT_IN_TIME_RECOGNITION
+      fill_result: UNVERIFIABLE_WITHOUT_MINUTE_DATA
+    688126.SH:
+      instrument_route: STOCK
+      candidate_audit: REQUIRES_POINT_IN_TIME_RECOGNITION
+      fill_result: UNVERIFIABLE_WITHOUT_MINUTE_DATA
+    300604.SZ:
+      instrument_route: STOCK
+      candidate_audit: REQUIRES_POINT_IN_TIME_RECOGNITION
+      fill_result: UNVERIFIABLE_WITHOUT_MINUTE_DATA
+    588170.SH:
+      instrument_route: ETF
+      strategy_route: ICE_CORE_REPAIR_ETF
+      eligibility: DATA_INSUFFICIENT
+      fill_result: NO_ORDER
+  excluded_from_parameter_selection_score: true
+
+parameter_provenance:
+  registry_status: PARTIAL_RESEARCH_VERSION
+  require_complete_registry_before_production: true
+
+  sector.capacity.hard_floor.calibrated_market_share:
+    class: HISTORICALLY_CALIBRATED
+    evidence_id: LF_20230805_SECTOR_100E8
+  sector.capacity.big_floor.calibrated_market_share:
+    class: HISTORICALLY_CALIBRATED
+    evidence_id: LF_20241226_SECTOR_200E8
+  sector.capacity.engineering_a_grade.reference_yuan:
+    class: ENGINEERING_DEFAULT
+    validation: UNCALIBRATED
+  stock.liquidity.modes.STANDARD.market_share:
+    class: DERIVED_FORMULA
+    formula: geometric_mean_of_6e8_and_8e8_anchor_shares
+  simple_pullback.take_profit.target_r:
+    class: SOURCE_RULE
+    evidence_id: LF_20240229_SIMPLE_PULLBACK
+  simple_pullback.entry.max_gap_above_trigger_r:
+    class: ENGINEERING_DEFAULT
+    validation: UNCALIBRATED
+  yang_yin_yang.middle.max_days:
+    class: SOURCE_RULE
+    evidence_id: LF_20240401_YYY
+  yang_yin_yang.first_yang.min_return_fraction_of_actual_limit_pct:
+    class: ENGINEERING_DEFAULT
+    validation: UNCALIBRATED
+  not_expected.time_exit_days:
+    class: SOURCE_RULE
+    evidence_id: LF_3D_3PCT
+  ice_core_repair.eligibility.required_prior_emotion_state:
+    class: SOURCE_RULE_COMPOSITE
+    evidence_ids:
+      - LF_20230907_ICE_BUY
+      - LF_20250111_TAIL_ICE
+  ice_core_repair.live_market_repair.min_adv_ratio:
+    class: ENGINEERING_DEFAULT
+    validation: UNCALIBRATED
+  ice_core_repair.setup_variants.RECLAIM_15M:
+    class: ENGINEERING_DEFAULT
+    validation: UNCALIBRATED
+  ice_core_repair.setup_variants.TAIL_HOLD:
+    class: SOURCE_RULE_PLUS_ENGINEERING_THRESHOLD
+    evidence_id: LF_20250111_TAIL_ICE
+    validation: UNCALIBRATED
+  ice_core_repair.exit.strong_sell_window_is_advisory_only:
+    class: SOURCE_RULE_COMPOSITE
+    evidence_ids:
+      - LF_20230411_REPAIR_HIGH_SELL
+      - LF_20250123_NEXT_DAY_REPAIR
+  etf.adjustment:
+    class: DATA_INTEGRITY_RULE
+    validation: REQUIRED
+  etf.liquidity.median_amount_20_max_rank_pct:
+    class: ENGINEERING_DEFAULT
+    validation: UNCALIBRATED
